@@ -24,8 +24,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += src/main.cpp \
-        src/force3.cpp
+    src/force3.cpp \
+    src/gameboard.cpp \
+    src/mainmenu.cpp
 
-HEADERS  += src/force3.hpp
+HEADERS  += \
+    src/force3.hpp \
+    src/gameboard.hpp \
+    src/mainmenu.hpp
 
-FORMS    += ui/force3.ui
+FORMS    += \
+    ui/force3.ui \
+    ui/gameboard.ui \
+    ui/mainmenu.ui
