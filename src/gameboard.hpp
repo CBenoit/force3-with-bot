@@ -12,7 +12,7 @@ class QGridLayout;
 class Gamesquare;
 
 namespace square {
-enum class type;
+enum class type: unsigned char;
 }
 
 class Gameboard : public QWidget

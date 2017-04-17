@@ -37,12 +37,12 @@ void Gameboard::square(unsigned char x, unsigned char y, square::type pawn_type)
 	m_squares[x][y]->type(pawn_type);
 }
 
-square::type Gameboard::square() const {
+square::type Gameboard::square(unsigned char x, unsigned char y) const {
 	return m_squares[x][y]->type();
 }
 
 void Gameboard::swap(unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2) {
-	m_squares[x1][y1].swap(m_squares[x2][y2]);
+	m_squares[x1][y1]->swap(*m_squares[x2][y2]);
 }
 
 void Gameboard::resizeEvent(QResizeEvent*) {
