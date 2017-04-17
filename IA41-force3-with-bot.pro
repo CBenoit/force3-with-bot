@@ -27,12 +27,14 @@ SOURCES += src/main.cpp \
     src/force3.cpp \
     src/gameboard.cpp \
 	src/mainmenu.cpp \
+	src/messagehandler.cpp \
     src/gamesquare.cpp
 
 HEADERS  += \
     src/force3.hpp \
     src/gameboard.hpp \
 	src/mainmenu.hpp \
+	src/messagehandler.hpp \
     src/gamesquare.hpp
 
 FORMS    += \
