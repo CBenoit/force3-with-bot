@@ -13,15 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Gameboard here!</string>
-     </property>
-    </widget>
-   </item>
-  </layout>
  </widget>
  <resources/>
  <connections/>
