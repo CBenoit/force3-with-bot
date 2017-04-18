@@ -3,10 +3,6 @@
 
 #include <QWidget>
 
-
-namespace Ui {
-class Gameboard;
-}
 class QGridLayout;
 
 class Gamesquare;
@@ -14,6 +10,8 @@ class Gamesquare;
 namespace square {
 enum class type: unsigned char;
 }
+
+class QPoint;
 
 class Gameboard : public QWidget
 {
@@ -29,16 +27,22 @@ public:
 	square::type square(unsigned char x, unsigned char y) const;
 
 	void swap(unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2);
+	
+private slots:
+	void gamesquare_pressed(int x, int y);
+	void gamesquare_released(int x, int y);
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event) override;
 
 private:
 	void draw();
+	void next_turn();
 
 	std::array<std::array<Gamesquare*,3>,3> m_squares;
 	QGridLayout* m_layout;
-	Ui::Gameboard* m_ui;
+	QPoint m_last_square_pressed;
+	square::type m_current_player;
 };
 
 #endif // GAMEBOARD_HPP

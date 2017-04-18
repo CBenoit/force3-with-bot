@@ -1,12 +1,16 @@
 #include "gamesquare.hpp"
 
 #include <QPalette>
+#include <QMouseEvent>
 #include <QDebug>
-
-Gamesquare::Gamesquare(QWidget *parent) :
+#include <cmath>
+#include <iostream>
+Gamesquare::Gamesquare(QPoint id, QWidget *parent):
 	QWidget(parent),
-	m_type(square::type::available)
+	m_type(square::type::available),
+	m_id(id)
 {
+	draw();
 	setAutoFillBackground(true);
 }
 
@@ -24,11 +28,26 @@ void Gamesquare::swap(Gamesquare& other) {
 	square::type tmp = other.type();
 	other.type(this->m_type);
 	type(tmp);
-
 }
 
-void Gamesquare::resizeEvent(QResizeEvent*) {
-	draw();
+void Gamesquare::mousePressEvent(QMouseEvent*) {
+	emit pressed(m_id.x(), m_id.y());
+}
+
+void Gamesquare::mouseReleaseEvent(QMouseEvent* event) {
+	QSize size_ = size();
+	int x;
+	if (event->pos().x() <= 0) {
+		x = (event->pos().x() - size_.width()) / size_.width() + m_id.x();
+	} else {
+		x = (event->pos().x() + size_.width()) / size_.width() - 1 + m_id.x();
+	}
+
+	if (event->pos().y() <= 0) {
+		emit released(x, (event->pos().y() - size_.height()) / size_.height() + m_id.y());
+	} else {
+		emit released(x, (event->pos().y() + size_.height()) / size_.height() - 1 + m_id.y());
+	}
 }
 
 void Gamesquare::draw() {

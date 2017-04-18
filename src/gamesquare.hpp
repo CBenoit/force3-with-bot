@@ -13,6 +13,8 @@
 	ENTRY(Qt::GlobalColor::black, empty_square) \
 	ENTRY(Qt::GlobalColor::white, available)
 
+class QMouseEvent;
+
 namespace square {
 
 	enum class type: unsigned char {
@@ -29,7 +31,7 @@ class Gamesquare : public QWidget
 
 public:
 
-	explicit Gamesquare(QWidget *parent = nullptr);
+	explicit Gamesquare(QPoint id, QWidget *parent = nullptr);
 
 	void type(square::type new_type);
 
@@ -37,17 +39,21 @@ public:
 
 	void swap(Gamesquare& other);
 
+signals:
+	void pressed(int x, int y);
+	void released(int x, int y);
+
+
 protected:
-	virtual void resizeEvent(QResizeEvent* event);
+	virtual void mousePressEvent(QMouseEvent* event) override;
+
+	virtual void mouseReleaseEvent(QMouseEvent* event) override;
 
 private:
 	void draw();
 
 	square::type m_type;
-
-signals:
-
-public slots:
+	const QPoint m_id;
 };
 
 #endif // GAMESQUARE_HPP
