@@ -26,6 +26,7 @@
 
 #if (defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(WIN64)) && !defined(__CYGWIN__)
 #define MSGH_OS_WINDOWS
+#include <windows.h>
 #endif
 
 
@@ -141,15 +142,13 @@ inline void q_message_fatal(const std::string& header, const MessageLogContext& 
 
 inline void console_set_color(const std::string& color) {
 #ifdef MSGH_OS_WINDOWS
-	/*
 	if (color == "blue") {
-		system("Color 09");
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 1);
 	} else if (color == "red") {
-		system("Color 0C");
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
 	} else if (color == "yellow") {
-		system("Color 0E");
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
 	}
-	*/
 #else
 	if (color == "blue") {
 		std::cout << "\033[34m";
@@ -163,7 +162,7 @@ inline void console_set_color(const std::string& color) {
 
 inline void console_reset_color() {
 #ifdef MSGH_OS_WINDOWS
-	//system("Color 07");
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
 #else
 	std::cout << "\033[0m";
 #endif
