@@ -28,6 +28,8 @@ public:
 
 	QPushButton* getStartButton(); // FIXME: better way to connect to this button's click signal?
 
+	QPushButton* getSettingsButton(); // FIXME: same here.
+
 private slots:
 	void on_quitButton_clicked();
 

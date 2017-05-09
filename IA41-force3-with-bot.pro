@@ -28,16 +28,19 @@ SOURCES += src/main.cpp \
     src/gameboard.cpp \
 	src/mainmenu.cpp \
 	src/messagehandler.cpp \
-    src/gamesquare.cpp
+    src/gamesquare.cpp \
+    src/settingsmenu.cpp
 
 HEADERS  += \
     src/force3.hpp \
     src/gameboard.hpp \
 	src/mainmenu.hpp \
 	src/messagehandler.hpp \
-    src/gamesquare.hpp
+    src/gamesquare.hpp \
+    src/settingsmenu.hpp
 
 FORMS    += \
     ui/force3.ui \
     ui/gameboard.ui \
-    ui/mainmenu.ui
+    ui/mainmenu.ui \
+    ui/settingsmenu.ui

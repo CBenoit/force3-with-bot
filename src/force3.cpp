@@ -12,6 +12,7 @@
 #include "ui_force3.h"
 #include "mainmenu.hpp"
 #include "gameboard.hpp"
+#include "settingsmenu.hpp"
 
 Force3::Force3(QWidget* parent) :
 	QMainWindow(parent),
@@ -37,10 +38,17 @@ void Force3::setMainMenu() {
 	MainMenu* mainMenu = new MainMenu();
 	switchScene(m_currentWidget, mainMenu);
 	connect(mainMenu->getStartButton(), SIGNAL(clicked()), this, SLOT(setGameboard()));
+	connect(mainMenu->getSettingsButton(), SIGNAL(clicked()), this, SLOT(setSettings()));
 }
 
 void Force3::setGameboard() {
 	switchScene(m_currentWidget, new Gameboard());
+}
+
+void Force3::setSettings() {
+	SettingsMenu* settingsMenu = new SettingsMenu();
+	switchScene(m_currentWidget, settingsMenu);
+	connect(settingsMenu->getBackToMainMenuButton(), SIGNAL(clicked()), this, SLOT(setMainMenu()));
 }
 
 void Force3::switchScene(QWidget* oldWidget, QWidget* newWidget) {

@@ -26,6 +26,10 @@ QPushButton* MainMenu::getStartButton() {
 	return m_ui->startButton;
 }
 
+QPushButton* MainMenu::getSettingsButton() {
+	return m_ui->settingsButton;
+}
+
 void MainMenu::on_quitButton_clicked() {
 	QCoreApplication::quit();
 }
