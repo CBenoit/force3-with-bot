@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "gameboard.hpp"
-#include "ui_gameboard.h"
+#include "boardsquare.hpp"
 #include "gamesquare.hpp"
 
 #include <QResizeEvent>
@@ -62,7 +62,7 @@ void Gameboard::gamesquare_pressed(int x, int y) {
 }
 
 void Gameboard::gamesquare_released(int x, int y) {
-	if (x >= 0 && x <= 3 && y >= 0 && y <= 3) {
+	if (x >= 0 && x <= 2 && y >= 0 && y <= 2) {
 		Gamesquare* square = m_squares[m_last_square_pressed.x()][m_last_square_pressed.y()];
 		Gamesquare* target = m_squares[x][y];
 		if (square == target) {

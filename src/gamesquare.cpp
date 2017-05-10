@@ -59,7 +59,7 @@ void Gamesquare::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void Gamesquare::draw() {
-	if (m_type == square::type::type_number) {
+	if (m_type == square::type::size    ) {
 		qDebug() << "Invalid type!";
 	} else {
 		setPalette(QPalette(square::COLORS[static_cast<unsigned char>(m_type)]));

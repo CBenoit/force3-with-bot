@@ -14,25 +14,12 @@
 #include <QWidget>
 #include <QColor>
 
-
-#define AS_COLORS(x,y) x,
-#define AS_PLAYERS(x,y) y,
-#define COLORS_AND_PLAYERS(ENTRY) \
-	ENTRY(Qt::GlobalColor::red, red) \
-	ENTRY(Qt::GlobalColor::blue, blue) \
-	ENTRY(Qt::GlobalColor::black, empty_square) \
-	ENTRY(Qt::GlobalColor::white, available)
+#include "boardsquare.hpp"
 
 class QMouseEvent;
 
 namespace square {
-
-	enum class type: unsigned char {
-		COLORS_AND_PLAYERS(AS_PLAYERS)
-		type_number
-	};
-
-	static const std::array<QColor,static_cast<int>(type::type_number)> COLORS = {{ COLORS_AND_PLAYERS(AS_COLORS) }};
+	static const std::array<QColor,static_cast<int>(type::size)> COLORS = {{ COLORS_AND_PLAYERS(AS_COLORS) }};
 }
 
 class Gamesquare : public QWidget
