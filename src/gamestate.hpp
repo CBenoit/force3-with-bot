@@ -23,8 +23,9 @@ public:
 	~GameState();
 
 	template <typename Move>
-	bool play(Move move) {
-		if (impl_play(move)) {
+	bool play(const Move& move) {
+		if (impl_is_valid_move(move)) {
+			impl_play(move);
 			impl_next_turn();
 			return true;
 		}
@@ -49,17 +50,19 @@ public:
 	std::vector<GameState> generate_neighbours() const;
 
 private:
-	bool impl_play(move::Slide slide);
+	void impl_play(const move::Slide& slide);
+	void impl_play(const move::Swap& swp);
+	void impl_play(const move::SetColor& set_color);
 
-	bool impl_play(move::Swap swap);
-
-	bool impl_play(move::SetColor set_color);
+	bool impl_is_valid_move(const move::Slide& slide) const;
+	bool impl_is_valid_move(const move::Swap& swp) const;
+	bool impl_is_valid_move(const move::SetColor& set_color) const;
 
 	void impl_next_turn();
 
 	// helpers
 
-	bool has_remaining_tokens(square::type square_type);
+	bool has_remaining_tokens(square::type square_type) const;
 
 	void decrement_remaining_tokens(square::type square_type);
 
@@ -72,6 +75,9 @@ private:
 
 	square::type m_current_player;
 	GameboardState m_gameboard_state;
+
+	template <typename Move>
+	friend GameState generate_game_state_from_move(const GameState& current_game_state, const Move& move);
 };
 
 #endif // FORCE3_GAMEMANAGER_HPP
