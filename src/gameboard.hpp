@@ -13,6 +13,8 @@
 
 #include <QWidget>
 
+#include "gamestate.hpp"
+
 class QGridLayout;
 
 class Gamesquare;
@@ -47,12 +49,11 @@ protected:
 
 private:
 	void draw();
-	void next_turn();
 
 	std::array<std::array<Gamesquare*,3>,3> m_squares;
 	QGridLayout* m_layout;
 	QPoint m_last_square_pressed;
-	square::type m_current_player;
+	GameState m_game_state;
 };
 
 #endif // FORCE3_GAMEBOARD_HPP

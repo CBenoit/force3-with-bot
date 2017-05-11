@@ -8,20 +8,22 @@
 //                                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "gameboard.hpp"
-#include "boardsquare.hpp"
-#include "gamesquare.hpp"
-
 #include <QResizeEvent>
 #include <QGridLayout>
 #include <cmath>
+
+#include "gameboard.hpp"
+#include "boardsquare.hpp"
+#include "gamesquare.hpp"
+#include "move.hpp"
 
 Gameboard::Gameboard(QWidget *parent) :
 	QWidget(parent),
 	m_layout(new QGridLayout),
 	m_last_square_pressed(-1,-1),
-	m_current_player(square::type::blue)
+	m_game_state()
 {
+
 	for (unsigned char i{3} ; i-- ;) {
 		for (unsigned char j{3} ; j-- ;) {
 			m_squares[i][j] = new Gamesquare(QPoint(i,j));
@@ -65,31 +67,26 @@ void Gameboard::gamesquare_released(int x, int y) {
 	if (x >= 0 && x <= 2 && y >= 0 && y <= 2) {
 		Gamesquare* square = m_squares[m_last_square_pressed.x()][m_last_square_pressed.y()];
 		Gamesquare* target = m_squares[x][y];
-		if (square == target) {
-			if (square->type() == square::type::available) {
-				square->type(m_current_player);
-				next_turn();
+		if (square == target) { // put a token
+			if (m_game_state.play(move::SetColor(x, y))) {
+				square->type(m_game_state.get_previous_player());
 			}
-		} else {
+		} else if (target->type() == square::type::available
+					   && square->type() != square::type::available
+					   && square->type() != square::type::empty_square) { // move a token on any free square
+			if (m_game_state.play(move::Swap(m_last_square_pressed.x(), m_last_square_pressed.y(), x, y))) {
+				square->swap(*target);
+			}
+		} else if (target->type() == square::type::empty_square) { // slides
 			int x_diff = std::abs(m_last_square_pressed.x() - x);
 			int y_diff = std::abs(m_last_square_pressed.y() - y);
-			if (x_diff + y_diff == 1) {
-				if (target->type() == square::type::empty_square) {
+			if (m_game_state.play(move::Slide(m_last_square_pressed.x(), m_last_square_pressed.y(), x, y))) {
+				if (x_diff + y_diff == 1) { // slide one square
 					square->swap(*target);
-					next_turn();
-				} else if (target->type() == square::type::available
-						   && square->type() != square::type::available
-						   && square->type() != square::type::empty_square){
-					square->swap(*target);
-					next_turn();
-				}
-			} else if (x_diff == 2 && y_diff == 0) {
-				if (target->type() == square::type::empty_square) {
+				} if (x_diff == 2 && y_diff == 0) { // slide two squares horizontally
 					target->swap(*m_squares[1][y]);
 					square->swap(*m_squares[1][y]);
-				}
-			} else if (y_diff == 2 && x_diff == 0) {
-				if (target->type() == square::type::empty_square) {
+				} else if (y_diff == 2 && x_diff == 0) { // slide two squares vertically
 					target->swap(*m_squares[x][1]);
 					square->swap(*m_squares[x][1]);
 				}
@@ -111,10 +108,3 @@ void Gameboard::draw() {
 	}
 }
 
-void Gameboard::next_turn() {
-	if (m_current_player == square::type::red) {
-		m_current_player = square::type::blue;
-	} else {
-		m_current_player = square::type::red;
-	}
-}

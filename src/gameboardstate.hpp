@@ -29,10 +29,13 @@ public:
 	bool operator==(const GameboardState& other) const;
 
 	square::type get(unsigned int x, unsigned int y) const;
+
 	/**
 	 * get(x, y) == get(x + 3*y)
 	 */
-	square::type get(unsigned int idx) const;
+	square::type get(unsigned int idx) const {
+		return static_cast<square::type>((m_board >> (2 * idx)) & 3);
+	}
 
 	void set(unsigned int x, unsigned int y, square::type value);
 

@@ -42,13 +42,6 @@ inline square::type GameboardState::get(unsigned int x, unsigned int y) const {
 	return static_cast<square::type>((m_board >> (6 * y + 2 * x)) & 3);
 }
 
-/**
- * get(x, y) == get(x + 3*y)
- */
-inline square::type GameboardState::get(unsigned int idx) const {
-	return static_cast<square::type>((m_board >> (2 * idx)) & 3);
-}
-
 inline void GameboardState::set(unsigned int x, unsigned int y, square::type value) {
 	uint_fast8_t r_idx = static_cast<uint_fast8_t>(6 * y + 2 * x);
 	m_board = (m_board & ~(3 << r_idx)) | (static_cast<uint_fast8_t>(value) << r_idx);
