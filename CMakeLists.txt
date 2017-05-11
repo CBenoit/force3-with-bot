@@ -22,6 +22,7 @@ add_executable(force3
         src/mainmenu.cpp
         src/messagehandler.cpp
         src/settingsmenu.cpp
+        src/gameboardstate.cpp
         ${UI_FILES})
 
 target_link_libraries(force3 Qt5::Widgets)

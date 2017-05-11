@@ -29,7 +29,8 @@ SOURCES += src/main.cpp \
 	src/mainmenu.cpp \
 	src/messagehandler.cpp \
     src/gamesquare.cpp \
-	src/settingsmenu.cpp
+	src/settingsmenu.cpp \
+    src/gameboardstate.cpp
 
 HEADERS  += \
     src/force3.hpp \
