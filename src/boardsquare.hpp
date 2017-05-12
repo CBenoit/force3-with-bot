@@ -14,6 +14,7 @@
 
 #define AS_COLORS(x,y) x,
 #define AS_TYPE(x,y) y,
+#define AS_EXT_TYPE(x,y) square::type::y,
 #define COLORS_AND_PLAYERS(ENTRY) \
   ENTRY(Qt::GlobalColor::black, empty_square) \
   ENTRY(Qt::GlobalColor::lightGray, available) \

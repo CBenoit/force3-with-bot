@@ -11,35 +11,37 @@
 #ifndef MOVE_HPP
 #define MOVE_HPP
 
+#include <cstdint>
+
 namespace move {
 
 struct Slide {
-	Slide(int from_x, int from_y, int to_x, int to_y)
+	Slide(uint_fast8_t from_x, uint_fast8_t from_y, uint_fast8_t to_x, uint_fast8_t to_y)
 		: from_x(from_x), from_y(from_y), to_x(to_x), to_y(to_y)
 	{}
 
-	int from_x;
-	int from_y;
-	int to_x;
-	int to_y;
+	uint_fast8_t from_x;
+	uint_fast8_t from_y;
+	uint_fast8_t to_x;
+	uint_fast8_t to_y;
 };
 
 struct Swap {
-	Swap(int x1, int y1, int x2, int y2)
+	Swap(uint_fast8_t x1, uint_fast8_t y1, uint_fast8_t x2, uint_fast8_t y2)
 		: x1(x1), y1(y1), x2(x2), y2(y2)
 	{}
 
-	int x1;
-	int y1;
-	int x2;
-	int y2;
+	uint_fast8_t x1;
+	uint_fast8_t y1;
+	uint_fast8_t x2;
+	uint_fast8_t y2;
 };
 
 struct SetColor {
-	SetColor(int x, int y) : x(x), y(y) {}
+	SetColor(uint_fast8_t x, uint_fast8_t y) : x(x), y(y) {}
 
-	int x;
-	int y;
+	uint_fast8_t x;
+	uint_fast8_t y;
 };
 
 }
