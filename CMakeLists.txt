@@ -15,14 +15,15 @@ qt5_wrap_ui(UI_FILES
         ui/settingsmenu.ui)
 
 add_executable(force3
+        src/main.cpp
         src/force3.cpp
         src/gameboard.cpp
-        src/gamesquare.cpp
-        src/main.cpp
         src/mainmenu.cpp
         src/messagehandler.cpp
+        src/gamesquare.cpp
         src/settingsmenu.cpp
-        src/gameboardstate.cpp
+        src/gamestate.cpp
+        src/boardstate.cpp
         ${UI_FILES})
 
 target_link_libraries(force3 Qt5::Widgets)
