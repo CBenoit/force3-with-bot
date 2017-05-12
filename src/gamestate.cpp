@@ -37,16 +37,6 @@ GameState::~GameState() {}
 
 // ============ generate_neighbours part ================ //
 
-void find_empty_square(const GameboardState& gameboard_state, int* x, int* y) {
-	for (unsigned int i = BOARD_DIMENSION * BOARD_DIMENSION; i--;) {
-		if (gameboard_state.get(i) == type::empty_square) {
-			*x = i % BOARD_DIMENSION;
-			*y = i / BOARD_DIMENSION;
-			return;
-		}
-	}
-}
-
 template <typename Move>
 GameState generate_game_state_from_move(const GameState& current_game_state, const Move& move) {
 	GameState new_game_state(current_game_state);
@@ -57,26 +47,38 @@ GameState generate_game_state_from_move(const GameState& current_game_state, con
 
 std::vector<GameState> GameState::generate_neighbours() const {
 	std::vector<GameState> neighbours;
-	neighbours.reserve(16); // there are at most 16 diffrents neighbours.
+	neighbours.reserve(19); // there are at most 19 differents neighbours given the current state.
 
-	int empty_square_x, empty_square_y;
-	find_empty_square(m_gameboard_state, &empty_square_x, &empty_square_y);
-
-	// slides
-	for (int x = BOARD_DIMENSION; x--;) {
-		for (int y = BOARD_DIMENSION; y--;) {
-			move::Slide slide{x, y, empty_square_x, empty_square_y};
-			if (impl_is_valid_move(slide)) {
-				neighbours.push_back(generate_game_state_from_move(*this, slide));
+	for (unsigned int i = BOARD_DIMENSION * BOARD_DIMENSION; i--;) {
+		type square_type = m_gameboard_state.get(i);
+		if (square_type == type::empty_square) { // slides
+			int empty_square_x = i % BOARD_DIMENSION, empty_square_y = i / BOARD_DIMENSION;
+			for (int x = BOARD_DIMENSION; x--;) {
+				for (int y = BOARD_DIMENSION; y--;) {
+					move::Slide slide{x, y, empty_square_x, empty_square_y};
+					if (impl_is_valid_move(slide)) {
+						neighbours.push_back(generate_game_state_from_move(*this, slide));
+					}
+				}
+			}
+		} else if (square_type == m_current_player) { // swaps
+			int from_x = i % BOARD_DIMENSION, from_y = i / BOARD_DIMENSION;
+			for (int x = BOARD_DIMENSION; x--;) {
+				for (int y = BOARD_DIMENSION; y--;) {
+					move::Swap swap{from_x, from_y, x, y};
+					if (impl_is_valid_move(swap)) {
+						neighbours.push_back(generate_game_state_from_move(*this, swap));
+					}
+				}
+			}
+		} else if (square_type == type::available && has_remaining_tokens(m_current_player)) { // set color
+			int x = i % BOARD_DIMENSION, y = i / BOARD_DIMENSION;
+			move::SetColor set_color{x, y};
+			if (impl_is_valid_move(set_color)) {
+				neighbours.push_back(generate_game_state_from_move(*this, set_color));
 			}
 		}
 	}
-
-	// swaps
-	// TODO
-
-	// set color
-	// TODO
 
 	return std::move(neighbours);
 }
@@ -122,8 +124,7 @@ bool GameState::impl_is_valid_move(const move::Slide& slide) const {
 }
 
 bool GameState::impl_is_valid_move(const move::Swap& swp) const {
-	return (m_gameboard_state.get(swp.x1, swp.y1) == type::blue || m_gameboard_state.get(swp.x1, swp.y1) == type::red)
-		&& m_gameboard_state.get(swp.x2, swp.y2) == type::available;
+	return m_gameboard_state.get(swp.x1, swp.y1) == m_current_player && m_gameboard_state.get(swp.x2, swp.y2) == type::available;
 }
 
 bool GameState::impl_is_valid_move(const move::SetColor& set_color) const {
