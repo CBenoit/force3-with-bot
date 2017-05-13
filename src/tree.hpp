@@ -415,7 +415,33 @@ public:
 	}
 
 	/**
-	 * @brief Insert value before the given iterator.
+	 * @brief Sets Root
+	 * @tparam It
+	 * @param value
+	 * @return an iterator pointing to the root.
+	 */
+	template <typename It = pre_order_iterator>
+	It insertRoot(const T& value) {
+		assert(m_dummyRoot->nextSibling == m_dummyLast);
+
+		return insert(cbegin(), value);
+	}
+
+	/**
+	 * @brief Sets Root
+	 * @tparam It
+	 * @param value
+	 * @return an iterator pointing to the root.
+	 */
+	template <typename It = pre_order_iterator>
+	It insertRoot(T&& value) {
+		assert(m_dummyRoot->nextSibling == m_dummyLast);
+
+		return insert(cbegin(), std::move(value));
+	}
+
+	/**
+	 * @brief Inserts value before the given iterator.
 	 * @tparam It Iterator type
 	 * @param it an iterator
 	 * @param value
@@ -448,7 +474,7 @@ public:
 	}
 
 	/**
-	 * @brief Construct the value before the given iterator
+	 * @brief Constructs the value before the given iterator
 	 * @tparam It Iterator type
 	 * @tparam Args Arguments Types
 	 * @param it an iterator
@@ -477,7 +503,7 @@ public:
 	}
 
 	/**
-	 * @brief Add a child at the end of the child list of the given element.
+	 * @brief Adds a child at the end of the child list of the given element.
 	 * @tparam It Iterator type
 	 * @param it an iterator
 	 * @param value
