@@ -20,10 +20,10 @@ const square::type GameState::PLAYER_TURNS[static_cast<int>(square::type::size) 
 
 GameState::GameState()
 	: m_remaining_tokens{BOARD_DIMENSION, BOARD_DIMENSION},
-	  m_current_player(type::blue),
+	  m_current_player{type::blue},
 	  m_board_state{{type::available, type::available,    type::available},
-						 {type::available, type::empty_square, type::available},
-						 {type::available, type::available,    type::available}}
+					{type::available, type::empty_square, type::available},
+					{type::available, type::available,    type::available}}
 {
 	static_assert(static_cast<int>(type::red) + 1 == static_cast<int>(type::blue),"blue must follow red in square::type");
 	static_assert(static_cast<int>(type::blue) + 1 == static_cast<int>(type::size), "blue must be the last element of square:type");
@@ -90,10 +90,20 @@ void GameState::do_play(move::Slide slide) {
 		swap(slide.to_x, slide.to_y, slide.to_x, 1);
 		swap(slide.from_x, slide.from_y, slide.to_x, 1);
 	}
+
+	m_last_move.set_move(slide);
 }
 
 bool GameState::is_valid_move(move::Slide slide) const {
 	if (m_board_state.get(slide.to_x, slide.to_y) == square::type::empty_square) {
+		if (m_last_move.is_slide()) { // doing reverse slide is not authorized.
+			move::Slide previous_slide = m_last_move.unwrap_slide();
+			if (previous_slide.from_x == slide.to_x && previous_slide.from_y == slide.to_y
+				&& previous_slide.to_x == slide.from_x && previous_slide.to_y == slide.from_y) {
+				return false;
+			}
+		}
+
 		uint_fast8_t x_diff = static_cast<uint_fast8_t>(std::abs(static_cast<int_fast8_t>(slide.from_x - slide.to_x)));
 		uint_fast8_t y_diff = static_cast<uint_fast8_t>(std::abs(static_cast<int_fast8_t>(slide.from_y - slide.to_y)));
 			   //slide one square      slide two squares on x or y

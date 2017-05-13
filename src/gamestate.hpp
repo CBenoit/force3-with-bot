@@ -18,21 +18,15 @@
 #include "gamesquare.hpp"
 #include "boardsquare.hpp"
 #include "move.hpp"
-
-// forward declaration
-namespace move {
-struct Slide;
-struct Swap;
-struct SetColor;
-}
+#include "movewrapper.hpp"
 
 class GameState
 {
 public:
 	GameState();
-	GameState(const GameState& game_manager) = default;
+	GameState(const GameState&) = default;
 	GameState(GameState&&) = default;
-	GameState& operator=(const GameState& game_manager) = default;
+	GameState& operator=(const GameState&) = default;
 	~GameState() = default;
 
 	template <typename Move>
@@ -63,10 +57,12 @@ private:
 	void do_play(move::Slide slide);
 	void do_play(move::Swap swp) {
 		swap(swp.x1, swp.y1, swp.x2, swp.y2);
+		m_last_move.set_move(swp);
 	}
 	void do_play(move::SetColor set_color) {
 		decrement_remaining_tokens(m_current_player);
 		m_board_state.set(set_color.x, set_color.y, m_current_player);
+		m_last_move.set_move(set_color);
 	}
 
 	bool is_valid_move(move::Slide slide) const;
@@ -103,6 +99,8 @@ private:
 
 	square::type m_current_player;
 	BoardState m_board_state;
+
+	move::MoveWrapper m_last_move;
 
 	static const square::type PLAYER_TURNS[static_cast<int>(square::type::size) + 1];
 

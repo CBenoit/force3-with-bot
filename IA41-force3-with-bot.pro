@@ -31,7 +31,8 @@ SOURCES += src/main.cpp \
     src/gamesquare.cpp \
 	src/settingsmenu.cpp \
     src/gamestate.cpp \
-    src/boardstate.cpp
+    src/boardstate.cpp \
+    src/alphabeta.cpp
 
 HEADERS  += \
     src/force3.hpp \
@@ -43,7 +44,10 @@ HEADERS  += \
 	src/boardsquare.hpp \
     src/move.hpp \
     src/gamestate.hpp \
-    src/boardstate.hpp
+    src/boardstate.hpp \
+    src/alphabeta.hpp \
+    src/tree.hpp \
+    src/movewrapper.hpp
 
 FORMS    += \
     ui/force3.ui \

@@ -86,7 +86,7 @@ public:
 
 		m_dummyRoot->nextSibling = m_dummyLast;
 		m_dummyLast->prevSibling = m_dummyRoot;
-	};
+	}
 
 	/**
 	 * @brief Copy constructor
