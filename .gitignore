@@ -1,2 +1,12 @@
 IA41-force3-with-bot.pro.user
 *.autosave
+
+.autolatex_stamp
+*.aux
+*.idx
+*.ilg
+*.ind
+*.log
+*.out
+*.toc
+
