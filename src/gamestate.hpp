@@ -13,6 +13,7 @@
 
 #include <vector>
 #include <cstdint>
+#include <cstddef>
 
 #include "boardstate.hpp"
 #include "gamesquare.hpp"
@@ -49,7 +50,14 @@ public:
 
 	std::vector<GameState> generate_neighbours() const;
 
-	bool is_there_a_winner(square::type* winner = nullptr) const;
+	bool is_there_a_winner(square::type* winner) const;
+	bool is_there_a_winner(nullptr_t) const {
+		return is_there_a_winner();
+	}
+	bool is_there_a_winner() const {
+		square::type t;
+		return is_there_a_winner(&t);
+	}
 
 private:
 	void do_play(move::Slide slide);
