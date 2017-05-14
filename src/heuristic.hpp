@@ -13,6 +13,8 @@ using function_t = std::function<return_t(const GameState&, square::type)>;
 
 return_t default_heuristic(const GameState&, square::type);
 
+return_t win_lose(const GameState&, square::type);
+
 }
 
 #endif // HEURISTIC_HPP

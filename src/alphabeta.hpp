@@ -27,7 +27,7 @@ struct Node {
 class AlphaBeta
 {
 public:
-	AlphaBeta(heuristic::function_t heuristic = heuristic::default_heuristic, uint_fast8_t depth = 4);
+	AlphaBeta(heuristic::function_t heuristic = heuristic::default_heuristic, uint_fast8_t depth = 6);
 	AlphaBeta(const AlphaBeta&) = default;
 	AlphaBeta(AlphaBeta&&) = default;
 	AlphaBeta& operator=(const AlphaBeta&) = default;
@@ -37,9 +37,9 @@ public:
 
 private: // helpers
 	// without alpha beta pruning.
-	heuristic::return_t negamax(details::Node node, size_t current_depth) const;
+	heuristic::return_t negamax(details::Node node, size_t remaining_depth) const;
 	// with alpha beta pruning.
-	heuristic::return_t alphabeta(details::Node node, size_t current_depth, heuristic::return_t alpha, heuristic::return_t beta) const;
+	heuristic::return_t negamax(details::Node node, size_t remaining_depth, heuristic::return_t alpha, heuristic::return_t beta) const;
 
 private:
 	uint_fast8_t m_depth;
