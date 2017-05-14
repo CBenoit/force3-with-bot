@@ -9,6 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "boardstate.hpp"
+#include "movewrapper.hpp"
 
 #include <vector>
 
@@ -80,4 +81,35 @@ std::ostream& operator<<(std::ostream& os, const BoardState& gs) {
 		os << '\n';
 	}
 	return os;
+}
+
+move::MoveWrapper diff(BoardState prev, BoardState next) {
+
+	uint_fast8_t i{0};
+	uint_fast8_t arr[3][3];
+	square::type pst, nst;
+	for (uint_fast8_t idx{9} ; idx--;) {
+		pst = prev.get(idx);
+		nst = next.get(idx);
+		if (pst != nst) {
+			arr[0][i  ] = idx;
+			arr[1][i  ] = static_cast<uint_fast8_t>(pst);
+			arr[2][i++] = static_cast<uint_fast8_t>(nst);
+		}
+	}
+
+	--i;
+	if (i == 0) {
+		return move::MoveWrapper(move::SetColor(arr[0][0] % 3, arr[0][0] / 3));
+	}
+
+	if (arr[1][0] == static_cast<uint_fast8_t>(square::type::empty_square)) {
+		return move::MoveWrapper(move::Slide(arr[0][0] % 3, arr[0][0] / 3, arr[0][i] % 3, arr[0][i] / 3));
+	}
+
+	if (arr[2][0] == static_cast<uint_fast8_t>(square::type::empty_square)) {
+		return move::MoveWrapper(move::Slide(arr[0][i] % 3, arr[0][i] / 3, arr[0][0] % 3, arr[0][0] / 3));
+	}
+
+	return move::MoveWrapper(move::Swap(arr[0][0] % 3, arr[0][0] / 3, arr[0][i] % 3, arr[0][i] / 3));
 }

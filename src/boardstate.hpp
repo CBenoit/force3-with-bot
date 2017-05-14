@@ -20,6 +20,10 @@
 
 #define BOARD_DIMENSION 3
 
+namespace move {
+class MoveWrapper;
+}
+
 class BoardState {
 
 public:
@@ -76,5 +80,6 @@ private:
 };
 
 std::ostream& operator<<(std::ostream& os, const BoardState& gs);
+move::MoveWrapper diff(BoardState prev, BoardState next);
 
 #endif // GAMEBOARDSTATE_HPP
