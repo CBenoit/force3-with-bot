@@ -158,8 +158,8 @@ void Gameboard::play(move::Slide slide) {
 }
 
 void Gameboard::play(move::Swap swap) {
-	Gamesquare* square = m_squares[swap.x1][swap.y1];
-	Gamesquare* target = m_squares[swap.x2][swap.y2];
+	Gamesquare* square = m_squares[swap.from_x][swap.from_y];
+	Gamesquare* target = m_squares[swap.to_x][swap.to_y];
 	square->swap(*target);
 }
 

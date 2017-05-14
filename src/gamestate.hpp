@@ -62,7 +62,7 @@ public:
 private:
 	void do_play(move::Slide slide);
 	void do_play(move::Swap swp) {
-		swap(swp.x1, swp.y1, swp.x2, swp.y2);
+		swap(swp.from_x, swp.from_y, swp.to_x, swp.to_y);
 		m_last_move.set_move(swp);
 	}
 	void do_play(move::SetColor set_color) {
@@ -73,7 +73,7 @@ private:
 
 	bool is_valid_move(move::Slide slide) const;
 	bool is_valid_move(move::Swap swp) const {
-		return m_board_state.get(swp.x1, swp.y1) == m_current_player && m_board_state.get(swp.x2, swp.y2) == square::type::available;
+		return m_board_state.get(swp.from_x, swp.from_y) == m_current_player && m_board_state.get(swp.to_x, swp.to_y) == square::type::available;
 	}
 	bool is_valid_move(move::SetColor set_color) const {
 		return m_board_state.get(set_color.x, set_color.y) == square::type::available && has_remaining_tokens(m_current_player) != 0;

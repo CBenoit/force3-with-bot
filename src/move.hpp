@@ -28,13 +28,13 @@ struct Slide {
 
 struct Swap {
 	Swap(uint_fast8_t x1, uint_fast8_t y1, uint_fast8_t x2, uint_fast8_t y2)
-		: x1(x1), y1(y1), x2(x2), y2(y2)
+		: from_x(x1), from_y(y1), to_x(x2), to_y(y2)
 	{}
 
-	uint_fast8_t x1;
-	uint_fast8_t y1;
-	uint_fast8_t x2;
-	uint_fast8_t y2;
+	uint_fast8_t from_x;
+	uint_fast8_t from_y;
+	uint_fast8_t to_x;
+	uint_fast8_t to_y;
 };
 
 struct SetColor {
@@ -43,7 +43,6 @@ struct SetColor {
 	uint_fast8_t x;
 	uint_fast8_t y;
 };
-
 }
 
 #endif // MOVE_HPP

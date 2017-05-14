@@ -40,7 +40,7 @@ heuristic::return_t AlphaBeta::negamax(details::Node node, size_t current_depth)
 	}
 }
 
-heuristic::return_t AlphaBeta::alphabeta(details::Node node, size_t current_depth, heuristic::return_t alpha, heuristic::return_t beta) const {
+heuristic::return_t AlphaBeta::alphabeta(details::Node /*node*/, size_t /*current_depth*/, heuristic::return_t /*alpha*/, heuristic::return_t /*beta*/) const {
 	// TODO: alpha beta pruning based on negamax.
 
 	return 0;
