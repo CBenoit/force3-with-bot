@@ -19,12 +19,16 @@ bool is_there_a_connected_token(const GameState& game_state, square::type type, 
 }
 
 auto heuristic::default_heuristic(const GameState& game_state, square::type player) -> return_t {
+	return_t score = 0;
+
 	square::type winner;
 	if (game_state.is_there_a_winner(&winner)) {
-		return winner == player ? std::numeric_limits<return_t>::max() - 1 : std::numeric_limits<return_t>::min() + 1;
+		if (winner == player) {
+			return 100;
+		} else {
+			score = -100;
+		}
 	}
-
-	return_t score = 0;
 
 	square::type opponent;
 	if (player == square::type::blue) {
