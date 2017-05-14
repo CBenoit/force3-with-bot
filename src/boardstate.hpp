@@ -38,9 +38,13 @@ public:
 	BoardState& operator=(const BoardState&) = default;
 	~BoardState() {}
 
-	bool operator==(const BoardState& other) const;
+	bool operator==(const BoardState& other) const {
+		return m_board == other.m_board;
+	}
 
-	square::type get(unsigned int x, unsigned int y) const;
+	square::type get(unsigned int x, unsigned int y) const {
+		return static_cast<square::type>((m_board >> (6 * y + 2 * x)) & 3);
+	}
 
 	/**
 	 * get(x, y) == get(x + 3*y)
@@ -49,12 +53,18 @@ public:
 		return static_cast<square::type>((m_board >> (2 * idx)) & 3);
 	}
 
-	void set(unsigned int x, unsigned int y, square::type value);
+	void set(unsigned int x, unsigned int y, square::type value) {
+		uint_fast8_t r_idx = static_cast<uint_fast8_t>(6 * y + 2 * x);
+		m_board = (m_board & ~(3 << r_idx)) | (static_cast<uint_fast8_t>(value) << r_idx);
+	}
 
 	/**
 	 * set(x, y, v) <=> set(x + 3*y, v)
 	 */
-	void set(unsigned int idx, square::type value);
+	void set(unsigned int idx, square::type value) {
+		idx <<= 1;
+		m_board = (m_board & ~(3 << idx)) | (static_cast<uint_fast8_t>(value) << idx);
+	}
 
 	/**
 	 * Finds and returns the list of lines that are not equal in (*this) and (other).
