@@ -33,8 +33,7 @@ SOURCES += src/main.cpp \
     src/gamestate.cpp \
     src/boardstate.cpp \
     src/alphabeta.cpp \
-    src/heuristic.cpp \
-    src/movewrapper.cpp
+	src/heuristic.cpp
 
 HEADERS  += \
     src/force3.hpp \
