@@ -6,7 +6,7 @@
 heuristic::return_t heuristic::default_heuristic(const GameState& game_state, square::type player) {
 	square::type winner;
 	if (game_state.is_there_a_winner(&winner)) {
-		return winner == player ? std::numeric_limits<return_t>::max() : std::numeric_limits<return_t>::min();
+		return winner == player ? std::numeric_limits<return_t>::max() - 1 : std::numeric_limits<return_t>::min() + 1;
 	}
 
 	return_t score = 0;

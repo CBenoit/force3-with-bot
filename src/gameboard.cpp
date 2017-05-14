@@ -80,7 +80,7 @@ void Gameboard::gamesquare_released(int x, int y) {
 			if (m_game_state.play(set_color)) {
 				play(std::move(set_color));
 				m_player_turn = false;
-				QTimer::singleShot(1, this, SLOT(AI_play()));
+				QTimer::singleShot(100, this, SLOT(AI_play()));
 			}
 		} else if (target == square::type::available
 				   && from != square::type::available
@@ -90,7 +90,7 @@ void Gameboard::gamesquare_released(int x, int y) {
 			if (m_game_state.play(swap)) {
 				play(std::move(swap));
 				m_player_turn = false;
-				QTimer::singleShot(1, this, SLOT(AI_play()));
+				QTimer::singleShot(100, this, SLOT(AI_play()));
 			}
 		} else if (target == square::type::empty_square) { // slides
 			move::Slide slide{static_cast<uint_fast8_t>(m_last_square_pressed.x()), static_cast<uint_fast8_t>(m_last_square_pressed.y()),
@@ -98,7 +98,7 @@ void Gameboard::gamesquare_released(int x, int y) {
 			if (m_game_state.play(slide)) {
 				play(std::move(slide));
 				m_player_turn = false;
-				QTimer::singleShot(1, this, SLOT(AI_play()));
+				QTimer::singleShot(100, this, SLOT(AI_play()));
 			}
 		}
 	}
