@@ -78,6 +78,11 @@ std::vector<GameState> GameState::generate_neighbours() const {
 
 // ========= end generate_neighbours part =============== //
 
+bool GameState::is_there_a_winner(square::type* winner) const {
+	// TODO
+	return false;
+}
+
 void GameState::do_play(move::Slide slide) {
 	uint_fast8_t x_diff = static_cast<uint_fast8_t>(std::abs(static_cast<int_fast8_t>(slide.from_x - slide.to_x)));
 	uint_fast8_t y_diff = static_cast<uint_fast8_t>(std::abs(static_cast<int_fast8_t>(slide.from_y - slide.to_y)));

@@ -39,19 +39,17 @@ public:
 		return false;
 	}
 
-	square::type get_current_player() const {
-		return m_current_player;
-	}
+	square::type get_current_player() const { return m_current_player; }
 
-	square::type get_previous_player() const {
-		return PLAYER_TURNS[static_cast<int>(m_current_player) + 1];
-	}
+	square::type get_previous_player() const { return PLAYER_TURNS[static_cast<int>(m_current_player) + 1]; }
 
-	const BoardState& get_board_state() const {
-		return m_board_state;
-	}
+	move::MoveWrapper get_last_move() const { return m_last_move; }
+
+	const BoardState& get_board_state() const { return m_board_state; }
 
 	std::vector<GameState> generate_neighbours() const;
+
+	bool is_there_a_winner(square::type* winner = nullptr) const;
 
 private:
 	void do_play(move::Slide slide);

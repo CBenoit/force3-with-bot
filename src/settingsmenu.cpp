@@ -18,6 +18,7 @@ SettingsMenu::SettingsMenu(QWidget *parent) :
 	m_ui->setupUi(this);
 
 	m_ui->modeComboBox->addItem("Player vs AI");
+	m_ui->modeComboBox->addItem("Player vs Player");
 	m_ui->modeComboBox->addItem("AI vs AI");
 
 	m_ui->rulesComboBox->addItem("Default rules");

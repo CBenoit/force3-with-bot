@@ -14,6 +14,8 @@
 #include <QWidget>
 
 #include "gamestate.hpp"
+#include "alphabeta.hpp"
+#include "move.hpp"
 
 class QGridLayout;
 
@@ -43,6 +45,7 @@ public:
 private slots:
 	void gamesquare_pressed(int x, int y);
 	void gamesquare_released(int x, int y);
+	void AI_play();
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event) override;
@@ -50,10 +53,16 @@ protected:
 private:
 	void draw();
 
+	void play(move::Slide);
+	void play(move::Swap);
+	void play(move::SetColor);
+
+	bool m_player_turn;
 	std::array<std::array<Gamesquare*,3>,3> m_squares;
 	QGridLayout* m_layout;
 	QPoint m_last_square_pressed;
 	GameState m_game_state;
+	AlphaBeta m_alpha_beta;
 };
 
 #endif // FORCE3_GAMEBOARD_HPP
