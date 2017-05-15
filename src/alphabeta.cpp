@@ -1,10 +1,16 @@
+#include <random>
+#include <cstdlib>
+#include <ctime>
+
 #include "alphabeta.hpp"
 #include "move.hpp"
 
 AlphaBeta::AlphaBeta(heuristic::function_t heuristic, uint_fast8_t depth)
 	: m_depth(depth)
 	, m_heuristic(heuristic)
-{}
+{
+	std::srand(std::time(0));
+}
 
 move::MoveWrapper AlphaBeta::think(GameState game_state) const {
 	if (game_state.is_there_a_winner()) {
@@ -12,16 +18,20 @@ move::MoveWrapper AlphaBeta::think(GameState game_state) const {
 	} else {
 		std::vector<GameState> neighbours = game_state.generate_neighbours();
 		heuristic::return_t max = std::numeric_limits<heuristic::return_t>::min();
-		move::MoveWrapper best_move;
+		std::vector<move::MoveWrapper> best_moves;
+		best_moves.reserve(10);
 		for (auto& gs : neighbours) {
 			details::Node child{std::move(gs), true};
 			heuristic::return_t ret = -negamax(child, m_depth - 1);
 			if (ret > max) {
-				best_move = child.game_state.get_last_move();
+				best_moves.clear();
+				best_moves.push_back(child.game_state.get_last_move());
 				max = ret;
+			} else if (ret == max) {
+				best_moves.push_back(child.game_state.get_last_move());
 			}
 		}
-		return std::move(best_move);
+		return best_moves[std::rand() % best_moves.size()];
 	}
 }
 
