@@ -2,19 +2,19 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "alphabeta.hpp"
+#include "ai.hpp"
 #include "move.hpp"
 
 #define ALPHA_BETA_DEPTH_THRESHOLD 7
 
-AlphaBeta::AlphaBeta(heuristic::function_t heuristic, uint_fast8_t depth)
+AI::AI(heuristic::function_t heuristic, uint_fast8_t depth)
 	: m_depth(depth)
 	, m_heuristic(heuristic)
 {
 	std::srand(std::time(0));
 }
 
-move::MoveWrapper AlphaBeta::think(GameState game_state) const {
+move::MoveWrapper AI::think(GameState game_state) const {
 	if (game_state.is_there_a_winner()) {
 		return move::MoveWrapper();
 	} else {
@@ -45,7 +45,7 @@ move::MoveWrapper AlphaBeta::think(GameState game_state) const {
 }
 
 // negamax without alpha beta pruning.
-heuristic::return_t AlphaBeta::negamax(GameState game_state, bool is_opponent, size_t remaining_depth) const {
+heuristic::return_t AI::negamax(GameState game_state, bool is_opponent, size_t remaining_depth) const {
 	if (remaining_depth && !game_state.is_there_a_winner()) {
 		std::vector<GameState> neighbours = game_state.generate_neighbours();
 		heuristic::return_t max = std::numeric_limits<heuristic::return_t>::min();
@@ -61,7 +61,7 @@ heuristic::return_t AlphaBeta::negamax(GameState game_state, bool is_opponent, s
 }
 
 // negamax with alpha beta pruning.
-heuristic::return_t AlphaBeta::negamax(GameState game_state, bool is_opponent, size_t remaining_depth,
+heuristic::return_t AI::negamax(GameState game_state, bool is_opponent, size_t remaining_depth,
 									   heuristic::return_t alpha, heuristic::return_t beta) const {
 	if (remaining_depth && !game_state.is_there_a_winner()) {
 		std::vector<GameState> neighbours = game_state.generate_neighbours();

@@ -24,7 +24,7 @@ Gameboard::Gameboard(QWidget *parent) :
 	m_layout(new QGridLayout),
 	m_last_square_pressed(-1,-1),
 	m_game_state(),
-	m_alpha_beta()
+	m_ai()
 {
 	for (unsigned char i{3} ; i-- ;) {
 		for (unsigned char j{3} ; j-- ;) {
@@ -109,7 +109,7 @@ void Gameboard::AI_play() {
 		return;
 	}
 
-	move::MoveWrapper move = m_alpha_beta.think(m_game_state);
+	move::MoveWrapper move = m_ai.think(m_game_state);
 	if (move.is_set_color()) {
 		if (m_game_state.play(move.unwrap_set_color())) {
 			play(move.unwrap_set_color());

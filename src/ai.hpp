@@ -7,18 +7,18 @@
 #include "heuristic.hpp"
 
 /**
- * @brief The AlphaBeta class
+ * @brief The AI class
  *
- * Alpha Beta with nega max algorithm.
+ * AI with plain negamax and negamax with alpha beta pruning.
  */
-class AlphaBeta
+class AI
 {
 public:
-	AlphaBeta(heuristic::function_t heuristic = heuristic::default_heuristic, uint_fast8_t depth = 7);
-	AlphaBeta(const AlphaBeta&) = default;
-	AlphaBeta(AlphaBeta&&) = default;
-	AlphaBeta& operator=(const AlphaBeta&) = default;
-	~AlphaBeta() {}
+	AI(heuristic::function_t heuristic = heuristic::default_heuristic, uint_fast8_t depth = 7);
+	AI(const AI&) = default;
+	AI(AI&&) = default;
+	AI& operator=(const AI&) = default;
+	~AI() {}
 
 	move::MoveWrapper think(GameState game_state) const;
 

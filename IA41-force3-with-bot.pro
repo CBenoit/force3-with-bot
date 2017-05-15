@@ -32,8 +32,8 @@ SOURCES += src/main.cpp \
 	src/settingsmenu.cpp \
     src/gamestate.cpp \
     src/boardstate.cpp \
-    src/alphabeta.cpp \
-	src/heuristic.cpp
+	src/heuristic.cpp \
+    src/ai.cpp
 
 HEADERS  += \
     src/force3.hpp \
@@ -46,10 +46,10 @@ HEADERS  += \
     src/move.hpp \
     src/gamestate.hpp \
     src/boardstate.hpp \
-    src/alphabeta.hpp \
     src/tree.hpp \
     src/movewrapper.hpp \
-    src/heuristic.hpp
+    src/heuristic.hpp \
+    src/ai.hpp
 
 FORMS    += \
     ui/force3.ui \

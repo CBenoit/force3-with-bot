@@ -14,7 +14,7 @@
 #include <QWidget>
 
 #include "gamestate.hpp"
-#include "alphabeta.hpp"
+#include "ai.hpp"
 #include "move.hpp"
 
 class QGridLayout;
@@ -62,7 +62,7 @@ private:
 	QGridLayout* m_layout;
 	QPoint m_last_square_pressed;
 	GameState m_game_state;
-	AlphaBeta m_alpha_beta;
+	AI m_ai;
 };
 
 #endif // FORCE3_GAMEBOARD_HPP
