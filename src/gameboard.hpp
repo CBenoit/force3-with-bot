@@ -32,6 +32,7 @@ class Gameboard : public QWidget
 	Q_OBJECT
 
 public:
+
 	explicit Gameboard(QWidget* parent = nullptr);
 	Gameboard(const Gameboard&) = delete;
 	Gameboard& operator=(const Gameboard&) = delete;
@@ -41,6 +42,15 @@ public:
 	square::type square(unsigned char x, unsigned char y) const;
 
 	void swap(unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2);
+
+	static std::pair<uint, heuristic::function_t> blue_brain;
+	static std::pair<uint, heuristic::function_t> red_brain;
+
+	static unsigned char blue_depth;
+	static unsigned char red_depth;
+
+	static bool blue_is_ai;
+	static bool red_is_ai;
 	
 private slots:
 	void gamesquare_pressed(int x, int y);
@@ -57,12 +67,17 @@ private:
 	void play(move::Swap);
 	void play(move::SetColor);
 
-	bool m_player_turn;
+	void next_turn();
+
+	bool ia_turn() const;
+
+	bool m_blue_turn;
 	std::array<std::array<Gamesquare*,3>,3> m_squares;
 	QGridLayout* m_layout;
 	QPoint m_last_square_pressed;
 	GameState m_game_state;
-	AI m_ai;
+	AI m_blue_ai;
+	AI m_red_ai;
 };
 
 #endif // FORCE3_GAMEBOARD_HPP

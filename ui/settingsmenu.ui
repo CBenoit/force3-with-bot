@@ -25,7 +25,7 @@
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Rules</string>
+        <string>Rule set</string>
        </property>
       </widget>
      </item>

@@ -18,13 +18,24 @@
 #include "boardsquare.hpp"
 #include "gamesquare.hpp"
 
+
+std::pair<uint, heuristic::function_t> Gameboard::blue_brain = {0, &heuristic::easy};
+std::pair<uint, heuristic::function_t> Gameboard::red_brain = {0, &heuristic::easy};
+
+unsigned char Gameboard::blue_depth = 3;
+unsigned char Gameboard::red_depth = 3;
+
+bool Gameboard::blue_is_ai = false;
+bool Gameboard::red_is_ai = true;
+
 Gameboard::Gameboard(QWidget *parent) :
 	QWidget(parent),
-	m_player_turn(true),
+	m_blue_turn(true),
 	m_layout(new QGridLayout),
 	m_last_square_pressed(-1,-1),
 	m_game_state(),
-	m_ai()
+	m_blue_ai(blue_brain.second, blue_depth),
+	m_red_ai(red_brain.second, red_depth)
 {
 	for (unsigned char i{3} ; i-- ;) {
 		for (unsigned char j{3} ; j-- ;) {
@@ -38,6 +49,9 @@ Gameboard::Gameboard(QWidget *parent) :
 	this->setLayout(m_layout);
 	draw();
 	show();
+
+	m_blue_turn = !m_blue_turn;
+	next_turn();
 }
 
 Gameboard::~Gameboard() {
@@ -66,7 +80,7 @@ void Gameboard::gamesquare_pressed(int x, int y) {
 }
 
 void Gameboard::gamesquare_released(int x, int y) {
-	if (!m_player_turn) {
+	if (ia_turn()) {
 		return;
 	}
 
@@ -79,8 +93,7 @@ void Gameboard::gamesquare_released(int x, int y) {
 			move::SetColor set_color{to_x, to_y};
 			if (m_game_state.play(set_color)) {
 				play(std::move(set_color));
-				m_player_turn = false;
-				QTimer::singleShot(100, this, SLOT(AI_play()));
+				next_turn();
 			}
 		} else if (target == square::type::available
 				   && from != square::type::available
@@ -89,27 +102,27 @@ void Gameboard::gamesquare_released(int x, int y) {
 						to_x, to_y};
 			if (m_game_state.play(swap)) {
 				play(std::move(swap));
-				m_player_turn = false;
-				QTimer::singleShot(100, this, SLOT(AI_play()));
+				next_turn();
 			}
 		} else if (target == square::type::empty_square) { // slides
 			move::Slide slide{static_cast<uint_fast8_t>(m_last_square_pressed.x()), static_cast<uint_fast8_t>(m_last_square_pressed.y()),
 						to_x, to_y};
 			if (m_game_state.play(slide)) {
 				play(std::move(slide));
-				m_player_turn = false;
-				QTimer::singleShot(100, this, SLOT(AI_play()));
+				next_turn();
 			}
 		}
 	}
 }
 
 void Gameboard::AI_play() {
-	if (m_player_turn) {
-		return;
+	move::MoveWrapper move;
+	if (m_blue_turn) {
+		move = m_blue_ai.think(m_game_state);
+	} else {
+		move = m_red_ai.think(m_game_state);
 	}
 
-	move::MoveWrapper move = m_ai.think(m_game_state);
 	if (move.is_set_color()) {
 		if (m_game_state.play(move.unwrap_set_color())) {
 			play(move.unwrap_set_color());
@@ -124,7 +137,7 @@ void Gameboard::AI_play() {
 		}
 	}
 
-	m_player_turn = true;
+	next_turn();
 }
 
 void Gameboard::resizeEvent(QResizeEvent*) {
@@ -166,4 +179,15 @@ void Gameboard::play(move::Swap swap) {
 void Gameboard::play(move::SetColor set_color) {
 	Gamesquare* square = m_squares[set_color.x][set_color.y];
 	square->type(m_game_state.get_previous_player());
+}
+
+void Gameboard::next_turn() {
+	m_blue_turn = !m_blue_turn;
+	if (ia_turn()) {
+		QTimer::singleShot(100, this, SLOT(AI_play()));
+	}
+}
+
+bool Gameboard::ia_turn() const {
+	return m_blue_turn ? blue_is_ai : red_is_ai;
 }

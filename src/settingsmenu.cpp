@@ -12,6 +12,9 @@
 
 #include "settingsmenu.hpp"
 #include "ui_settingsmenu.h"
+#include "gameboard.hpp"
+
+static heuristic::function_t function_table[] = {&heuristic::easy, &heuristic::normal, &heuristic::hard, &heuristic::legendary};
 
 SettingsMenu::SettingsMenu(QWidget *parent) :
 	QWidget(parent),
@@ -20,26 +23,42 @@ SettingsMenu::SettingsMenu(QWidget *parent) :
 	m_ui->setupUi(this);
 
 	// populate rules combobox
-	m_ui->rulesComboBox->addItem("Default rules");
-	m_ui->rulesComboBox->addItem("Alternative rules");
+	m_ui->rulesComboBox->addItem("Default rule set");
+	m_ui->rulesComboBox->addItem("Alternative rule set"); // todo
 
 	// populate brains comboboxes
-	QString brains[] = {QString("Player"), QString("AI")};
+	QString brains[] = {"Player", "AI"};
 	for (auto brain : brains) {
 		m_ui->redBrainComboBox->addItem(brain);
 		m_ui->blueBrainComboBox->addItem(brain);
 	}
-	m_ui->redBrainComboBox->setCurrentIndex(1);
+	m_ui->redBrainComboBox->setCurrentIndex(Gameboard::red_is_ai);
+	m_ui->blueBrainComboBox->setCurrentIndex(Gameboard::blue_is_ai);
 
 	// populate AI types comboboxes
-	QString ai_types[] = {QString("Default"), QString("Improved"), QString("Better"), QString("Lose win")};
+	QString ai_types[] = {"Easy", "Normal", "Hard", "Legendary"};
 	for (auto type : ai_types) {
 		m_ui->redAITypeComboBox->addItem(type);
 		m_ui->blueAITypeComboBox->addItem(type);
 	}
+	m_ui->redAITypeComboBox->setCurrentIndex(Gameboard::red_brain.first);
+	m_ui->blueAITypeComboBox->setCurrentIndex(Gameboard::blue_brain.first);
+
+	m_ui->redAILevelSpinBox->setValue(Gameboard::red_depth);
+	m_ui->blueAILevelSpinBox->setValue(Gameboard::blue_depth);
 }
 
 SettingsMenu::~SettingsMenu() {
+	auto idx = m_ui->redAITypeComboBox->currentIndex();
+	Gameboard::red_brain = {static_cast<uint>(idx), function_table[idx]};
+	Gameboard::red_depth = static_cast<uint>(m_ui->redAILevelSpinBox->value());
+	Gameboard::red_is_ai = (m_ui->redBrainComboBox->currentIndex() == 1);
+
+	idx = m_ui->blueAITypeComboBox->currentIndex();
+	Gameboard::blue_brain = {static_cast<uint>(idx), function_table[idx]};
+	Gameboard::blue_depth = static_cast<uint>(m_ui->blueAILevelSpinBox->value());
+	Gameboard::blue_is_ai = (m_ui->blueBrainComboBox->currentIndex() == 1);
+
 	delete m_ui;
 }
 
