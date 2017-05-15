@@ -59,3 +59,9 @@ void Force3::switchScene(QWidget* oldWidget, QWidget* newWidget) {
 
 	m_currentWidget = newWidget;
 }
+
+void Force3::keyPressEvent(QKeyEvent* event) {
+	if (event->key() == Qt::Key_Escape) {
+		setMainMenu();
+	}
+}

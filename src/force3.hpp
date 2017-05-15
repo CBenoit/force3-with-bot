@@ -13,6 +13,7 @@
 
 #include <QMainWindow>
 #include <QWidget>
+#include <QKeyEvent>
 
 namespace Ui {
 class Force3;
@@ -33,6 +34,7 @@ private slots:
 
 private:
 	void switchScene(QWidget* oldWidget, QWidget* newWidget);
+	void keyPressEvent(QKeyEvent* event);
 
 	Ui::Force3* m_ui;
 	QWidget* m_currentWidget;
