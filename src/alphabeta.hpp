@@ -6,19 +6,6 @@
 #include "gamesquare.hpp"
 #include "heuristic.hpp"
 
-namespace details {
-
-struct Node {
-	Node(GameState game_state, bool is_opponent)
-		: is_opponent(is_opponent), game_state(game_state)
-	{}
-
-	bool is_opponent;
-	GameState game_state;
-};
-
-}
-
 /**
  * @brief The AlphaBeta class
  *
@@ -27,7 +14,7 @@ struct Node {
 class AlphaBeta
 {
 public:
-	AlphaBeta(heuristic::function_t heuristic = heuristic::default_heuristic, uint_fast8_t depth = 6);
+	AlphaBeta(heuristic::function_t heuristic = heuristic::default_heuristic, uint_fast8_t depth = 7);
 	AlphaBeta(const AlphaBeta&) = default;
 	AlphaBeta(AlphaBeta&&) = default;
 	AlphaBeta& operator=(const AlphaBeta&) = default;
@@ -37,9 +24,10 @@ public:
 
 private: // helpers
 	// without alpha beta pruning.
-	heuristic::return_t negamax(details::Node node, size_t remaining_depth) const;
+	heuristic::return_t negamax(GameState game_state, bool is_opponent, size_t remaining_depth) const;
 	// with alpha beta pruning.
-	heuristic::return_t negamax(details::Node node, size_t remaining_depth, heuristic::return_t alpha, heuristic::return_t beta) const;
+	heuristic::return_t negamax(GameState game_state, bool is_opponent, size_t remaining_depth,
+								heuristic::return_t alpha, heuristic::return_t beta) const;
 
 private:
 	uint_fast8_t m_depth;
