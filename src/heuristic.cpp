@@ -52,7 +52,7 @@ static inline heuristic::return_t align_value(square::type player, square::type 
 	return Zero;
 }
 
-auto heuristic::improved_heuristic(const GameState& gs, square::type player) -> return_t {
+return_t heuristic::hard(const GameState& gs, square::type player) {
 
 	square::type opponent = GameState::opposite_player(player);
 	return_t value{0};
@@ -79,10 +79,10 @@ auto heuristic::improved_heuristic(const GameState& gs, square::type player) -> 
 	return value;
 }
 
-auto heuristic::better_heuristic(const GameState& game_state, square::type player) -> return_t {
+return_t heuristic::legendary(const GameState& game_state, square::type player) {
 
 	square::type opponent = GameState::opposite_player(player);
-	return_t value{improved_heuristic(game_state, player)};
+	return_t value{hard(game_state, player)};
 
 	auto bs = game_state.get_board_state();
 	uint_fast8_t idx{0};
@@ -99,16 +99,16 @@ auto heuristic::better_heuristic(const GameState& game_state, square::type playe
 				 idx_p3{idx < 15 ? bs.get(idx + 3) : square::type::size},
 				 idx_p6{idx < 12 ? bs.get(idx + 6) : square::type::size};
 	
-
-
 	value += align_value<120,30,1,7,5,0>(player, idx_m1, idx_p3, idx_p1);
 	value += align_value<120,30,1,7,5,0>(player, idx_m1, idx_m3, idx_p1);
 	value += align_value<120,30,1,7,5,0>(player, idx_m3, idx_p1, idx_p3);
 	value += align_value<120,30,1,7,5,0>(player, idx_m3, idx_m1, idx_p3);
+
 	value += align_value<120,30,1,7,5,0>(player, idx_m2, idx_m1, idx_p3);
 	value += align_value<120,30,1,7,5,0>(player, idx_m2, idx_m1, idx_m3);
 	value += align_value<120,30,1,7,5,0>(player, idx_p3, idx_p1, idx_p2);
 	value += align_value<120,30,1,7,5,0>(player, idx_m3, idx_p1, idx_p2);
+
 	value += align_value<120,30,1,7,5,0>(player, idx_m1, idx_m3, idx_m6);
 	value += align_value<120,30,1,7,5,0>(player, idx_p1, idx_m3, idx_m6);
 	value += align_value<120,30,1,7,5,0>(player, idx_p6, idx_p3, idx_p1);
@@ -149,7 +149,7 @@ bool is_there_a_connected_token(const GameState& game_state, square::type type, 
 	return false;
 }
 
-auto heuristic::default_heuristic(const GameState& game_state, square::type player) -> return_t {
+return_t heuristic::normal(const GameState& game_state, square::type player) {
 	return_t score = 0;
 
 	square::type winner;
@@ -186,7 +186,7 @@ auto heuristic::default_heuristic(const GameState& game_state, square::type play
 	return score;
 }
 
-auto heuristic::win_lose(const GameState& game_state, square::type player) -> return_t {
+return_t heuristic::easy(const GameState& game_state, square::type player) {
 	square::type winner;
 	if (game_state.is_there_a_winner(&winner)) {
 		return winner == player ? std::numeric_limits<return_t>::max() - 1 : std::numeric_limits<return_t>::min() + 1;

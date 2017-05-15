@@ -14,7 +14,7 @@
 class AI
 {
 public:
-	AI(heuristic::function_t heuristic = heuristic::default_heuristic, uint_fast8_t depth = 7);
+	AI(heuristic::function_t heuristic = &heuristic::normal, uint_fast8_t depth = 7);
 	AI(const AI&) = default;
 	AI(AI&&) = default;
 	AI& operator=(const AI&) = default;
