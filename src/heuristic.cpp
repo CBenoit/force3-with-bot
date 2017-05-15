@@ -71,6 +71,61 @@ auto heuristic::improved_heuristic(const GameState& gs, square::type player) -> 
 	return value;
 }
 
+auto heuristic::better_heuristic(const GameState& game_state, square::type player) -> return_t {
+
+	square::type opponent = GameState::opposite_player(player);
+	return_t value{improved_heuristic(game_state, player)};
+
+	auto bs = game_state.get_board_state();
+	uint_fast8_t idx{0};
+	while(bs.get(idx) != square::type::empty_square) {
+		++idx;
+	}
+	
+	square::type idx_m6{idx >= 6 ? bs.get(idx - 6) : square::type::size},
+				 idx_m3{idx >= 3 ? bs.get(idx - 3) : square::type::size},
+				 idx_m2{idx >= 2 ? bs.get(idx - 2) : square::type::size},
+				 idx_m1{idx >= 1 ? bs.get(idx - 1) : square::type::size},
+				 idx_p1{idx < 17 ? bs.get(idx + 1) : square::type::size},
+				 idx_p2{idx < 16 ? bs.get(idx + 2) : square::type::size},
+				 idx_p3{idx < 15 ? bs.get(idx + 3) : square::type::size},
+				 idx_p6{idx < 12 ? bs.get(idx + 6) : square::type::size};
+	
+	value += (align_value(player, idx_m1, idx_p3, idx_p1) * 2) / 5;
+	value += (align_value(player, idx_m1, idx_m3, idx_p1) * 2) / 5;
+	value += (align_value(player, idx_m3, idx_p1, idx_p3) * 2) / 5;
+	value += (align_value(player, idx_m3, idx_m1, idx_p3) * 2) / 5;
+
+	value += (align_value(player, idx_m2, idx_m1, idx_p3) * 2) / 5;
+	value += (align_value(player, idx_m2, idx_m1, idx_m3) * 2) / 5;
+	value += (align_value(player, idx_p3, idx_p1, idx_p2) * 2) / 5;
+	value += (align_value(player, idx_m3, idx_p1, idx_p2) * 2) / 5;
+
+	value += (align_value(player, idx_m1, idx_m3, idx_m6) * 2) / 5;
+	value += (align_value(player, idx_p1, idx_m3, idx_m6) * 2) / 5;
+	value += (align_value(player, idx_p6, idx_p3, idx_p1) * 2) / 5;
+	value += (align_value(player, idx_p6, idx_p3, idx_m1) * 2) / 5;
+	
+	
+	
+	value -= (align_value(opponent, idx_m1, idx_p3, idx_p1) * 2) / 5;
+	value -= (align_value(opponent, idx_m1, idx_m3, idx_p1) * 2) / 5;
+	value -= (align_value(opponent, idx_m3, idx_p1, idx_p3) * 2) / 5;
+	value -= (align_value(opponent, idx_m3, idx_m1, idx_p3) * 2) / 5;
+
+	value -= (align_value(opponent, idx_m2, idx_m1, idx_p3) * 2) / 5;
+	value -= (align_value(opponent, idx_m2, idx_m1, idx_m3) * 2) / 5;
+	value -= (align_value(opponent, idx_p3, idx_p1, idx_p2) * 2) / 5;
+	value -= (align_value(opponent, idx_m3, idx_p1, idx_p2) * 2) / 5;
+
+	value -= (align_value(opponent, idx_m1, idx_m3, idx_m6) * 2) / 5;
+	value -= (align_value(opponent, idx_p1, idx_m3, idx_m6) * 2) / 5;
+	value -= (align_value(opponent, idx_p6, idx_p3, idx_p1) * 2) / 5;
+	value -= (align_value(opponent, idx_p6, idx_p3, idx_m1) * 2) / 5;
+
+	return value;
+}
+
 bool is_there_a_connected_token(const GameState& game_state, square::type type, uint_fast8_t current_x, uint_fast8_t current_y) {
 	for (uint_fast8_t j{BOARD_DIMENSION * BOARD_DIMENSION}; j--;) {
 		square::type square_type = game_state.get_board_state().get(j);
