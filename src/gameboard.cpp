@@ -70,7 +70,7 @@ void Gameboard::gamesquare_released(int x, int y) {
 		return;
 	}
 
-	if (x >= 0 && x <= BOARD_DIMENSION && y >= 0 && y <= BOARD_DIMENSION) {
+	if (x >= 0 && x < BOARD_DIMENSION && y >= 0 && y < BOARD_DIMENSION) {
 		square::type from{m_game_state.get_board_state().get(m_last_square_pressed.x(), m_last_square_pressed.y())};
 		square::type target{m_game_state.get_board_state().get(x, y)};
 		uint_fast8_t to_x = static_cast<uint_fast8_t>(x);
