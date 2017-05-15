@@ -80,34 +80,56 @@ std::vector<GameState> GameState::generate_neighbours() const {
 // ========= end generate_neighbours part =============== //
 
 bool GameState::is_there_a_winner(square::type* winner) const {
-	square::type& st = *winner;
+	square::type lwinner;
+	bool winner_found{false};
+
 	for (uint_fast8_t i{0} ; i < 7 ; i+=3) {
-		st = m_board_state.get(i);
-		if ((st == square::type::red || st == square::type::blue)
-			&& m_board_state.get(i+1) == st && m_board_state.get(i+2) == st) {
-			return true;
+		lwinner = m_board_state.get(i);
+		if ((lwinner == square::type::red || lwinner == square::type::blue)
+			&& m_board_state.get(i+1) == lwinner && m_board_state.get(i+2) == lwinner) {
+			if (!winner_found) {
+				winner_found = true;
+				*winner = lwinner;
+			} else if (lwinner != *winner) {
+				return false;
+			}
 		}
 	}
 
 	for (uint_fast8_t i{3} ; i-- ;) {
-		st = m_board_state.get(i);
-		if ((st == square::type::red || st == square::type::blue)
-			&& m_board_state.get(i+3) == st && m_board_state.get(i+6) == st) {
-			return true;
+		lwinner = m_board_state.get(i);
+		if ((lwinner == square::type::red || lwinner == square::type::blue)
+			&& m_board_state.get(i+3) == lwinner && m_board_state.get(i+6) == lwinner) {
+			if (!winner_found) {
+				winner_found = true;
+				*winner = lwinner;
+			} else if (lwinner != *winner) {
+				return false;
+			}
 		}
 	}
 
-	st = m_board_state.get(4);
-	if (st == square::type::red || st == square::type::blue) {
-		if (m_board_state.get(0) == st && m_board_state.get(8) == st) {
-			return true;
+	lwinner = m_board_state.get(4);
+	if (lwinner == square::type::red || lwinner == square::type::blue) {
+		if (m_board_state.get(0) == lwinner && m_board_state.get(8) == lwinner) {
+			if (!winner_found) {
+				winner_found = true;
+				*winner = lwinner;
+			} else if (lwinner != *winner) {
+				return false;
+			}
 		}
 
-		if (m_board_state.get(2) == st && m_board_state.get(6) == st) {
-			return true;
+		if (m_board_state.get(2) == lwinner && m_board_state.get(6) == lwinner) {
+			if (!winner_found) {
+				winner_found = true;
+				*winner = lwinner;
+			} else if (lwinner != *winner) {
+				return false;
+			}
 		}
 	}
-	return false;
+	return winner_found;
 }
 
 void GameState::do_play(move::Slide slide) {
