@@ -3,6 +3,74 @@
 #include "heuristic.hpp"
 #include "boardstate.hpp"
 
+static inline heuristic::return_t align_value(square::type player, square::type st0, square::type st1, square::type st2) {
+	if (st0 == player) {
+		if (st1 == player) {
+			if (st2 == player) {
+				return 10000;
+			} else if (st2 == square::type::available) {
+				return 21;
+			} else if (st2 == square::type::empty_square) {
+				return 16;
+			} else {
+				return 11;
+			}
+		} else if (st2 == player) {
+			if (st1 == square::type::available) {
+				return 21;
+			} else if (st1 == square::type::empty_square) {
+				return 16;
+			} else {
+				return 11;
+			}
+		} else {
+			return 5;
+		}
+	} else if (st1 == player) {
+		if (st2 == player) {
+			if (st0 == square::type::available) {
+				return 21;
+			} else if (st0 == square::type::empty_square) {
+				return 16;
+			} else {
+				return 11;
+			}
+		} else {
+			return 5;
+		}
+	} else if (st2 == player) {
+		return 5;
+	}
+	return 0;
+}
+
+auto heuristic::improved_heuristic(const GameState& gs, square::type player) -> return_t {
+
+	square::type opponent = GameState::opposite_player(player);
+	return_t value{0};
+
+	BoardState bs{gs.get_board_state()};
+	for (uint_fast8_t i{BOARD_DIMENSION} ; i-- ;) {
+
+		square::type vi_0 = bs.get(i), vi_1 = bs.get(i + 3), vi_2 = bs.get(i + 6);
+		square::type v0_i = bs.get(i*3), v1_i = bs.get(1,i), v2_i = bs.get(2,i);
+
+		// vert
+		value += align_value(player, vi_0, vi_1, vi_2);
+		value -= align_value(opponent, vi_0, vi_1, vi_2);
+
+		// hzt
+		value += align_value(player, v0_i,  v1_i, v2_i);
+		value -= align_value(opponent, v0_i,  v1_i, v2_i);
+	}
+	// diagonals
+	value += align_value(player, bs.get(0), bs.get(4), bs.get(8));
+	value += align_value(player, bs.get(2), bs.get(4), bs.get(6));
+	value -= align_value(opponent, bs.get(0), bs.get(4), bs.get(8));
+	value -= align_value(opponent, bs.get(2), bs.get(4), bs.get(6));
+	return value;
+}
+
 bool is_there_a_connected_token(const GameState& game_state, square::type type, uint_fast8_t current_x, uint_fast8_t current_y) {
 	for (uint_fast8_t j{BOARD_DIMENSION * BOARD_DIMENSION}; j--;) {
 		square::type square_type = game_state.get_board_state().get(j);

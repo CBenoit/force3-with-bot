@@ -46,7 +46,7 @@ public:
 
 	move::MoveWrapper get_last_move() const { return m_last_move; }
 
-	const BoardState& get_board_state() const { return m_board_state; }
+	BoardState get_board_state() const { return m_board_state; }
 
 	std::vector<GameState> generate_neighbours() const;
 
@@ -57,6 +57,10 @@ public:
 	bool is_there_a_winner() const {
 		square::type t;
 		return is_there_a_winner(&t);
+	}
+
+	static square::type opposite_player(square::type t) {
+		return PLAYER_TURNS[static_cast<int>(t) + 1];
 	}
 
 private:
@@ -94,9 +98,11 @@ private:
 	}
 
 	void swap(uint_fast8_t x1, uint_fast8_t y1, uint_fast8_t x2, uint_fast8_t y2) {
-		square::type tmp = m_board_state.get(x1, y1);
-		m_board_state.set(x1, y1, m_board_state.get(x2, y2));
-		m_board_state.set(x2, y2, tmp);
+		uint_fast8_t idx1 = x1 + y1 * 3;
+		uint_fast8_t idx2 = x2 + y2 * 3;
+		square::type tmp = m_board_state.get(idx1);
+		m_board_state.set(idx1, m_board_state.get(idx2));
+		m_board_state.set(idx2, tmp);
 	}
 
 	// attributes
