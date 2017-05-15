@@ -30,10 +30,6 @@ Force3::~Force3() {
 	}
 }
 
-void Force3::on_actionQuit_triggered() {
-	QCoreApplication::quit();
-}
-
 void Force3::setMainMenu() {
 	MainMenu* mainMenu = new MainMenu();
 	switchScene(m_currentWidget, mainMenu);

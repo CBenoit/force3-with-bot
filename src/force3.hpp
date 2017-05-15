@@ -27,7 +27,6 @@ public:
 	~Force3();
 
 private slots:
-	void on_actionQuit_triggered();
 	void setMainMenu();
 	void setGameboard();
 	void setSettings();

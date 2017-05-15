@@ -28,6 +28,11 @@ public:
 
 	QPushButton* getBackToMainMenuButton();
 
+private slots:
+	void on_blueBrainComboBox_currentIndexChanged(int index);
+
+	void on_redBrainComboBox_currentIndexChanged(int index);
+
 private:
 	Ui::SettingsMenu *m_ui;
 };
