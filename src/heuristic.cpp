@@ -3,45 +3,53 @@
 #include "heuristic.hpp"
 #include "boardstate.hpp"
 
+using heuristic::return_t;
+
+template <return_t Three = 1000,
+		  return_t TwoNAvailable = 21,
+		  return_t TwoNEmpty = 16,
+		  return_t TwoNOther = 11,
+		  return_t One = 5,
+		  return_t Zero = 0>
 static inline heuristic::return_t align_value(square::type player, square::type st0, square::type st1, square::type st2) {
 	if (st0 == player) {
 		if (st1 == player) {
 			if (st2 == player) {
-				return 10000;
+				return Three;
 			} else if (st2 == square::type::available) {
-				return 21;
+				return TwoNAvailable;
 			} else if (st2 == square::type::empty_square) {
-				return 16;
+				return TwoNEmpty;
 			} else {
-				return 11;
+				return TwoNOther;
 			}
 		} else if (st2 == player) {
 			if (st1 == square::type::available) {
-				return 21;
+				return TwoNAvailable;
 			} else if (st1 == square::type::empty_square) {
-				return 16;
+				return TwoNEmpty;
 			} else {
-				return 11;
+				return TwoNOther;
 			}
 		} else {
-			return 5;
+			return One;
 		}
 	} else if (st1 == player) {
 		if (st2 == player) {
 			if (st0 == square::type::available) {
-				return 21;
+				return TwoNAvailable;
 			} else if (st0 == square::type::empty_square) {
-				return 16;
+				return TwoNEmpty;
 			} else {
-				return 11;
+				return TwoNOther;
 			}
 		} else {
-			return 5;
+			return One;
 		}
 	} else if (st2 == player) {
-		return 5;
+		return One;
 	}
-	return 0;
+	return Zero;
 }
 
 auto heuristic::improved_heuristic(const GameState& gs, square::type player) -> return_t {
@@ -91,37 +99,37 @@ auto heuristic::better_heuristic(const GameState& game_state, square::type playe
 				 idx_p3{idx < 15 ? bs.get(idx + 3) : square::type::size},
 				 idx_p6{idx < 12 ? bs.get(idx + 6) : square::type::size};
 	
-	value += (align_value(player, idx_m1, idx_p3, idx_p1) * 2) / 5;
-	value += (align_value(player, idx_m1, idx_m3, idx_p1) * 2) / 5;
-	value += (align_value(player, idx_m3, idx_p1, idx_p3) * 2) / 5;
-	value += (align_value(player, idx_m3, idx_m1, idx_p3) * 2) / 5;
 
-	value += (align_value(player, idx_m2, idx_m1, idx_p3) * 2) / 5;
-	value += (align_value(player, idx_m2, idx_m1, idx_m3) * 2) / 5;
-	value += (align_value(player, idx_p3, idx_p1, idx_p2) * 2) / 5;
-	value += (align_value(player, idx_m3, idx_p1, idx_p2) * 2) / 5;
 
-	value += (align_value(player, idx_m1, idx_m3, idx_m6) * 2) / 5;
-	value += (align_value(player, idx_p1, idx_m3, idx_m6) * 2) / 5;
-	value += (align_value(player, idx_p6, idx_p3, idx_p1) * 2) / 5;
-	value += (align_value(player, idx_p6, idx_p3, idx_m1) * 2) / 5;
+	value += align_value<120,30,1,7,5,0>(player, idx_m1, idx_p3, idx_p1);
+	value += align_value<120,30,1,7,5,0>(player, idx_m1, idx_m3, idx_p1);
+	value += align_value<120,30,1,7,5,0>(player, idx_m3, idx_p1, idx_p3);
+	value += align_value<120,30,1,7,5,0>(player, idx_m3, idx_m1, idx_p3);
+	value += align_value<120,30,1,7,5,0>(player, idx_m2, idx_m1, idx_p3);
+	value += align_value<120,30,1,7,5,0>(player, idx_m2, idx_m1, idx_m3);
+	value += align_value<120,30,1,7,5,0>(player, idx_p3, idx_p1, idx_p2);
+	value += align_value<120,30,1,7,5,0>(player, idx_m3, idx_p1, idx_p2);
+	value += align_value<120,30,1,7,5,0>(player, idx_m1, idx_m3, idx_m6);
+	value += align_value<120,30,1,7,5,0>(player, idx_p1, idx_m3, idx_m6);
+	value += align_value<120,30,1,7,5,0>(player, idx_p6, idx_p3, idx_p1);
+	value += align_value<120,30,1,7,5,0>(player, idx_p6, idx_p3, idx_m1);
 	
 	
 	
-	value -= (align_value(opponent, idx_m1, idx_p3, idx_p1) * 2) / 5;
-	value -= (align_value(opponent, idx_m1, idx_m3, idx_p1) * 2) / 5;
-	value -= (align_value(opponent, idx_m3, idx_p1, idx_p3) * 2) / 5;
-	value -= (align_value(opponent, idx_m3, idx_m1, idx_p3) * 2) / 5;
+	value -= align_value<120,30,1,7,5,0>(opponent, idx_m1, idx_p3, idx_p1);
+	value -= align_value<120,30,1,7,5,0>(opponent, idx_m1, idx_m3, idx_p1);
+	value -= align_value<120,30,1,7,5,0>(opponent, idx_m3, idx_p1, idx_p3);
+	value -= align_value<120,30,1,7,5,0>(opponent, idx_m3, idx_m1, idx_p3);
 
-	value -= (align_value(opponent, idx_m2, idx_m1, idx_p3) * 2) / 5;
-	value -= (align_value(opponent, idx_m2, idx_m1, idx_m3) * 2) / 5;
-	value -= (align_value(opponent, idx_p3, idx_p1, idx_p2) * 2) / 5;
-	value -= (align_value(opponent, idx_m3, idx_p1, idx_p2) * 2) / 5;
+	value -= align_value<120,30,1,7,5,0>(opponent, idx_m2, idx_m1, idx_p3);
+	value -= align_value<120,30,1,7,5,0>(opponent, idx_m2, idx_m1, idx_m3);
+	value -= align_value<120,30,1,7,5,0>(opponent, idx_p3, idx_p1, idx_p2);
+	value -= align_value<120,30,1,7,5,0>(opponent, idx_m3, idx_p1, idx_p2);
 
-	value -= (align_value(opponent, idx_m1, idx_m3, idx_m6) * 2) / 5;
-	value -= (align_value(opponent, idx_p1, idx_m3, idx_m6) * 2) / 5;
-	value -= (align_value(opponent, idx_p6, idx_p3, idx_p1) * 2) / 5;
-	value -= (align_value(opponent, idx_p6, idx_p3, idx_m1) * 2) / 5;
+	value -= align_value<120,30,1,7,5,0>(opponent, idx_m1, idx_m3, idx_m6);
+	value -= align_value<120,30,1,7,5,0>(opponent, idx_p1, idx_m3, idx_m6);
+	value -= align_value<120,30,1,7,5,0>(opponent, idx_p6, idx_p3, idx_p1);
+	value -= align_value<120,30,1,7,5,0>(opponent, idx_p6, idx_p3, idx_m1);
 
 	return value;
 }
