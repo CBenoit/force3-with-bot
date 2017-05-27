@@ -12,6 +12,7 @@
 
 #include <QMouseEvent>
 #include <QDebug>
+#include <QtGui/QPainter>
 
 Gamesquare::Gamesquare(QPoint id, QWidget *parent):
 	QWidget(parent),
@@ -59,7 +60,7 @@ void Gamesquare::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void Gamesquare::draw() {
-	if (m_type == square::type::size    ) {
+	if (m_type == square::type::size) {
 		qDebug() << "Invalid type!";
 	} else {
 		setPalette(QPalette(square::COLORS[static_cast<unsigned char>(m_type)]));

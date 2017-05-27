@@ -18,8 +18,8 @@
 #define COLORS_AND_PLAYERS(ENTRY) \
   ENTRY(Qt::GlobalColor::black, empty_square) \
   ENTRY(Qt::GlobalColor::lightGray, available) \
-  ENTRY(Qt::GlobalColor::red, red) \
-  ENTRY(Qt::GlobalColor::blue, blue)
+  ENTRY(Qt::GlobalColor::darkRed, red) \
+  ENTRY(Qt::GlobalColor::darkBlue, blue)
 
 namespace square {
 
