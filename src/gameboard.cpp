@@ -37,6 +37,7 @@ Gameboard::Gameboard(QWidget *parent) :
 	m_blue_ai(blue_brain.second, blue_depth),
 	m_red_ai(red_brain.second, red_depth)
 {
+	setAutoFillBackground(true);
 	for (unsigned char i{3} ; i-- ;) {
 		for (unsigned char j{3} ; j-- ;) {
 			m_squares[i][j] = new Gamesquare(QPoint(i,j));
@@ -80,6 +81,7 @@ void Gameboard::gamesquare_pressed(int x, int y) {
 }
 
 void Gameboard::gamesquare_released(int x, int y) {
+	setPalette(QPalette(square::COLORS[static_cast<unsigned char>(m_blue_turn ? square::type::blue : square::type::red)]));
 	if (ia_turn()) {
 		return;
 	}
@@ -200,6 +202,8 @@ void Gameboard::next_turn() {
 	}
 
 	m_blue_turn = !m_blue_turn;
+	setPalette(QPalette(square::COLORS[static_cast<unsigned char>(m_blue_turn ? square::type::blue : square::type::red)]));
+
 	if (ia_turn()) {
 		QTimer::singleShot(100, this, SLOT(AI_play()));
 	}
