@@ -55,8 +55,8 @@ heuristic::return_t AI::negamax(GameState game_state, bool is_opponent, size_t r
 		return max;
 	} else { // this is a leaf
 		return is_opponent
-				? -m_heuristic(game_state, game_state.get_previous_player())
-				: m_heuristic(game_state, game_state.get_current_player());
+				? -(m_heuristic(game_state, game_state.get_previous_player()) + 100 * remaining_depth)
+				: (m_heuristic(game_state, game_state.get_current_player()) + 100 * remaining_depth);
 	}
 }
 
@@ -81,7 +81,7 @@ heuristic::return_t AI::negamax(GameState game_state, bool is_opponent, size_t r
 		return max;
 	} else { // this is a leaf
 		return is_opponent
-				? -m_heuristic(game_state, game_state.get_previous_player())
-				: m_heuristic(game_state, game_state.get_current_player());
+				? -(m_heuristic(game_state, game_state.get_previous_player()) + 100 * remaining_depth)
+				: (m_heuristic(game_state, game_state.get_current_player()) + 100 * remaining_depth);
 	}
 }
