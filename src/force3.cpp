@@ -8,6 +8,7 @@
 //                                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <QtWidgets/QMessageBox>
 #include "force3.hpp"
 #include "ui_force3.h"
 #include "mainmenu.hpp"
@@ -38,7 +39,9 @@ void Force3::setMainMenu() {
 }
 
 void Force3::setGameboard() {
-	switchScene(m_currentWidget, new Gameboard());
+	auto gameboard = new Gameboard();
+	switchScene(m_currentWidget, gameboard);
+	connect(gameboard, SIGNAL(winner_detected(bool)), this, SLOT(gameFinished(bool)));
 }
 
 void Force3::setSettings() {
@@ -63,5 +66,13 @@ void Force3::switchScene(QWidget* oldWidget, QWidget* newWidget) {
 void Force3::keyPressEvent(QKeyEvent* event) {
 	if (event->key() == Qt::Key_Escape) {
 		setMainMenu();
+	}
+}
+
+void Force3::gameFinished(bool isBlueWinner) {
+	if (isBlueWinner) {
+		QMessageBox::information(this, tr("There is a winner"), tr("The blue player won."));
+	} else {
+		QMessageBox::information(this, tr("There is a winner"), tr("The red player won"));
 	}
 }

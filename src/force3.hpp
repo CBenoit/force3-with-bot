@@ -32,6 +32,8 @@ private slots:
 	void setGameboard();
 	void setSettings();
 
+	void gameFinished(bool isBlueWinner);
+
 private:
 	void switchScene(QWidget* oldWidget, QWidget* newWidget);
 	void keyPressEvent(QKeyEvent* event);

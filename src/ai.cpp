@@ -22,14 +22,14 @@ move::MoveWrapper AI::think(GameState game_state) const {
 		heuristic::return_t max = std::numeric_limits<heuristic::return_t>::min() + 1;
 		std::vector<move::MoveWrapper> best_moves;
 		best_moves.reserve(10);
-		for (auto& gs : neighbours) {
+		for (const auto& gs : neighbours) {
 			heuristic::return_t ret;
 			if (m_depth >= ALPHA_BETA_DEPTH_THRESHOLD) { // enable alpha beta pruning if depth is high.
-				ret = -negamax(gs, true, m_depth - 1,
+				ret = -negamax(gs, true, m_depth - 1UL,
 							   max, // alpha
 							   std::numeric_limits<heuristic::return_t>::max() - 1); // beta
 			} else {
-				ret = -negamax(gs, true, m_depth - 1);
+				ret = -negamax(gs, true, m_depth - 1UL);
 			}
 
 			if (ret > max) {
@@ -84,6 +84,4 @@ heuristic::return_t AI::negamax(GameState game_state, bool is_opponent, size_t r
 				? -m_heuristic(game_state, game_state.get_previous_player())
 				: m_heuristic(game_state, game_state.get_current_player());
 	}
-
-	return 0;
 }

@@ -51,7 +51,10 @@ public:
 
 	static bool blue_is_ai;
 	static bool red_is_ai;
-	
+
+signals:
+	void winner_detected(bool m_blue_win);
+
 private slots:
 	void gamesquare_pressed(int x, int y);
 	void gamesquare_released(int x, int y);
@@ -72,6 +75,7 @@ private:
 	bool ia_turn() const;
 
 	bool m_blue_turn;
+	bool m_game_finished;
 	std::array<std::array<Gamesquare*,3>,3> m_squares;
 	QGridLayout* m_layout;
 	QPoint m_last_square_pressed;

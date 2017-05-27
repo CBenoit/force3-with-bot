@@ -13,10 +13,9 @@
 #include <QResizeEvent>
 #include <QGridLayout>
 #include <QTimer>
+#include <iostream>
 
 #include "gameboard.hpp"
-#include "boardsquare.hpp"
-#include "gamesquare.hpp"
 
 
 std::pair<uint, heuristic::function_t> Gameboard::blue_brain = {0, &heuristic::easy};
@@ -31,6 +30,7 @@ bool Gameboard::red_is_ai = true;
 Gameboard::Gameboard(QWidget *parent) :
 	QWidget(parent),
 	m_blue_turn(true),
+	m_game_finished(false),
 	m_layout(new QGridLayout),
 	m_last_square_pressed(-1,-1),
 	m_game_state(),
@@ -182,6 +182,23 @@ void Gameboard::play(move::SetColor set_color) {
 }
 
 void Gameboard::next_turn() {
+	if (m_game_finished) {
+		return;
+	}
+
+	if (m_game_state.is_there_a_winner()) {
+		for (unsigned char i{3} ; i-- ;) {
+			for (unsigned char j{3} ; j-- ;) {
+				disconnect(m_squares[i][j], &Gamesquare::pressed, this, &Gameboard::gamesquare_pressed);
+				disconnect(m_squares[i][j], &Gamesquare::released, this, &Gameboard::gamesquare_released);
+			}
+		}
+
+		m_game_finished = true;
+		emit winner_detected(m_blue_turn);
+		return;
+	}
+
 	m_blue_turn = !m_blue_turn;
 	if (ia_turn()) {
 		QTimer::singleShot(100, this, SLOT(AI_play()));
