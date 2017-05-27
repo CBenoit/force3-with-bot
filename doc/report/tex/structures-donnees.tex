@@ -18,7 +18,64 @@ Structures de données pour représenter le jeu.
 
 …
 
-\section{Arbre n-aire}
+\section{Arbre générique}
 
-…
+Pour représenter les états successifs du Force3, nous avons voulu utiliser un
+arbre générique, c'est à dire un arbre pouvant avoir un nombre non défini
+d'enfant par noeud.
 
+\begin{center}
+\begin{forest}for tree={inner sep=0pt,outer sep=0pt}
+[1
+  [2
+    [9]
+    [10]
+    [11]
+    [12]
+  ]
+  [3
+    [13]
+    [14]
+    [15]
+    [16]
+  ]
+  [4]
+  [5
+    [17]
+    [18]
+    [19]
+    [20]
+  ]
+  [6]
+  [7
+    [21]
+    [22]
+    [23]
+    [24]
+  ]
+  [8
+    [25]
+    [26]
+    [27]
+    [28]
+ ]
+]
+\end{forest}
+
+Cet arbre est construit sur le principe des itérateurs, permettant d'insérer
+facilement des éléments dans l'arbre.
+Il dispose de plusieurs types d'itérateurs:
+\begin{itemize}
+    \item Un permettant de traverser l'arbre en profondeur, en commencent avec
+    le noeud le plus à gauche.
+    \item Un permettant de traverser l'arbre en profondeur sur une profondeur
+    donnée, en commencent par le noeud le plus à gauche.
+    \item Un permettant de visiter tout les enfants d'un node.
+\end{itemize}
+
+La gestion de la mémoire est effectué par l'allocateur standard du c++,
+permettant d'initialiser la mémoire et d'appeler les constructeurs séparément.
+
+Cependant, cet arbre ne s'est pas révélé utile, car le stockage des différents
+états n'est pas nécessaire et a un impact mémoire très élevé.
+\end{center}
