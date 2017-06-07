@@ -9,7 +9,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <cmath>
+#include <iostream>
 
+#include "gameboard.hpp"
 #include "gamestate.hpp"
 #include "gamesquare.hpp"
 
@@ -164,4 +166,15 @@ bool GameState::is_valid_move(move::Slide slide) const {
 		return (x_diff + y_diff == 1) || (x_diff != y_diff && x_diff + y_diff == 2);
 	}
 	return false;
+}
+
+bool GameState::is_valid_move(move::SetColor set_color) const {
+	return m_board_state.get(set_color.x, set_color.y) == square::type::available && has_remaining_tokens(m_current_player) != 0;
+}
+
+bool GameState::is_valid_move(move::Swap swp) const {
+	std::cout << std::boolalpha << Gameboard::alternative_rules << ' ' << (std::max(std::abs(swp.from_x - swp.to_x), std::abs(swp.from_y - swp.to_y)) == 1) << '\n';
+	return m_board_state.get(swp.from_x, swp.from_y) == m_current_player &&
+	       m_board_state.get(swp.to_x, swp.to_y) == square::type::available &&
+	       (!Gameboard::alternative_rules || std::max(std::abs(swp.from_x - swp.to_x), std::abs(swp.from_y - swp.to_y)) == 1);
 }

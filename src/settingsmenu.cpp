@@ -24,7 +24,8 @@ SettingsMenu::SettingsMenu(QWidget *parent) :
 
 	// populate rules combobox
 	m_ui->rulesComboBox->addItem("Default rule set");
-	m_ui->rulesComboBox->addItem("Alternative rule set"); // todo
+	m_ui->rulesComboBox->addItem("Alternative rule set");
+	m_ui->rulesComboBox->setCurrentIndex(Gameboard::alternative_rules ? 1 : 0);
 
 	// populate brains comboboxes
 	QString brains[] = {"Player", "AI"};
@@ -59,6 +60,7 @@ SettingsMenu::~SettingsMenu() {
 	Gameboard::blue_depth = static_cast<uint>(m_ui->blueAILevelSpinBox->value());
 	Gameboard::blue_is_ai = (m_ui->blueBrainComboBox->currentIndex() == 1);
 
+	Gameboard::alternative_rules = (m_ui->rulesComboBox->currentIndex() == 1);
 	delete m_ui;
 }
 

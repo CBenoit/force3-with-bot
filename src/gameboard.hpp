@@ -52,6 +52,7 @@ public:
 	static bool blue_is_ai;
 	static bool red_is_ai;
 
+	static bool alternative_rules;
 signals:
 	void winner_detected(bool m_blue_win);
 

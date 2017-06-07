@@ -76,14 +76,10 @@ private:
 	}
 
 	bool is_valid_move(move::Slide slide) const;
-	bool is_valid_move(move::Swap swp) const {
-		return m_board_state.get(swp.from_x, swp.from_y) == m_current_player && m_board_state.get(swp.to_x, swp.to_y) == square::type::available;
-	}
-	bool is_valid_move(move::SetColor set_color) const {
-		return m_board_state.get(set_color.x, set_color.y) == square::type::available && has_remaining_tokens(m_current_player) != 0;
-	}
+	bool is_valid_move(move::Swap swp) const;
+	bool is_valid_move(move::SetColor set_color) const;
 
-	void next_turn()  {
+	void next_turn() {
 		m_current_player = PLAYER_TURNS[static_cast<int>(m_current_player) + 1];
 	}
 

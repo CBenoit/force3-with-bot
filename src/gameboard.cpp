@@ -27,6 +27,8 @@ unsigned char Gameboard::red_depth = 3;
 bool Gameboard::blue_is_ai = false;
 bool Gameboard::red_is_ai = true;
 
+bool Gameboard::alternative_rules = false;
+
 Gameboard::Gameboard(QWidget *parent) :
 	QWidget(parent),
 	m_blue_turn(true),
