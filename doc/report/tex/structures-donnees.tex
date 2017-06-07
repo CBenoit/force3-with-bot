@@ -24,6 +24,9 @@ Pour représenter les états successifs du Force3, nous avons voulu utiliser un
 arbre générique, c'est à dire un arbre pouvant avoir un nombre non défini
 d'enfant par noeud.
 
+Nous avons choisi d'utiliser un arbre car il n'est pas important de savoir si
+l'on est retourné dans l'état précédent.
+
 \begin{center}
 \begin{forest}for tree={inner sep=0pt,outer sep=0pt}
 [1
@@ -78,4 +81,5 @@ permettant d'initialiser la mémoire et d'appeler les constructeurs séparément
 
 Cependant, cet arbre ne s'est pas révélé utile, car le stockage des différents
 états n'est pas nécessaire et a un impact mémoire très élevé.
+
 \end{center}
