@@ -188,7 +188,8 @@ void Gameboard::next_turn() {
 		return;
 	}
 
-	if (m_game_state.is_there_a_winner()) {
+	square::type winner;
+	if (m_game_state.is_there_a_winner(&winner)) {
 		for (unsigned char i{3} ; i-- ;) {
 			for (unsigned char j{3} ; j-- ;) {
 				disconnect(m_squares[i][j], &Gamesquare::pressed, this, &Gameboard::gamesquare_pressed);
@@ -197,7 +198,7 @@ void Gameboard::next_turn() {
 		}
 
 		m_game_finished = true;
-		emit winner_detected(m_blue_turn);
+		emit winner_detected(winner == square::type::blue);
 		return;
 	}
 
