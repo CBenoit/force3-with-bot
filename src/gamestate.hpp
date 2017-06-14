@@ -30,6 +30,13 @@ public:
 	GameState& operator=(const GameState&) = default;
 	~GameState() = default;
 
+	/**
+	 * @brief generic play method. Takes any game move, check if the move is valid and apply it.
+	 * If the move isn't valid it is not applied. If the turn is applied, it call the next_turn function.
+	 *
+	 * @param move: the move to play.
+	 * @return true if the move was valid, false otherwise.
+	 */
 	template <typename Move>
 	bool play(const Move& move) {
 		if (is_valid_move(move)) {
@@ -50,10 +57,14 @@ public:
 
 	std::vector<GameState> generate_neighbours() const;
 
+	/**
+	 * @brief check if there is a winner in the current state set the pointed type to the winner's square color.
+	 * If it is a tie (both players align three squares of their color), it shall returns false.
+	 * @param winner: pointer to the value that should be set.
+	 * @return true if there is a winner, false otherwise.
+	 */
 	bool is_there_a_winner(square::type* winner) const;
-	bool is_there_a_winner(nullptr_t) const {
-		return is_there_a_winner();
-	}
+	bool is_there_a_winner(nullptr_t) const { return is_there_a_winner(); }
 	bool is_there_a_winner() const {
 		square::type t;
 		return is_there_a_winner(&t);
@@ -64,6 +75,7 @@ public:
 	}
 
 private:
+	// functions to apply a move.
 	void do_play(move::Slide slide);
 	void do_play(move::Swap swp) {
 		swap(swp.from_x, swp.from_y, swp.to_x, swp.to_y);
@@ -75,11 +87,14 @@ private:
 		m_last_move.set_move(set_color);
 	}
 
+	// functions to check if the move is valid.
 	bool is_valid_move(move::Slide slide) const;
 	bool is_valid_move(move::Swap swp) const;
 	bool is_valid_move(move::SetColor set_color) const;
 
+	// updates the current player
 	void next_turn() {
+		// find the next player with a hashtable.
 		m_current_player = PLAYER_TURNS[static_cast<int>(m_current_player) + 1];
 	}
 

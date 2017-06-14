@@ -71,8 +71,8 @@ std::vector<GameState> GameState::generate_neighbours() const {
 		} else if (square_type == type::available && has_remaining_tokens(m_current_player)) { // set color
 			uint_fast8_t x = i % BOARD_DIMENSION, y = i / BOARD_DIMENSION;
 			move::SetColor set_color{x, y};
-			//if (is_valid_move(set_color)) {
-				neighbours.push_back(generate_game_state_from_move(*this, set_color));
+			//if (is_valid_move(set_color)) { // no need to check again, conditions are already met.
+			neighbours.push_back(generate_game_state_from_move(*this, set_color));
 			//}
 		}
 	}
@@ -85,6 +85,7 @@ bool GameState::is_there_a_winner(square::type* winner) const {
 	square::type lwinner;
 	bool winner_found{false};
 
+	// check horizontal alignments
 	for (uint_fast8_t i{0} ; i < 7 ; i+=3) {
 		lwinner = m_board_state.get(i);
 		if ((lwinner == square::type::red || lwinner == square::type::blue)
@@ -98,6 +99,7 @@ bool GameState::is_there_a_winner(square::type* winner) const {
 		}
 	}
 
+	// check vertical alignments
 	for (uint_fast8_t i{3} ; i-- ;) {
 		lwinner = m_board_state.get(i);
 		if ((lwinner == square::type::red || lwinner == square::type::blue)
@@ -111,6 +113,7 @@ bool GameState::is_there_a_winner(square::type* winner) const {
 		}
 	}
 
+	// check diagonal alignments
 	lwinner = m_board_state.get(4);
 	if (lwinner == square::type::red || lwinner == square::type::blue) {
 		if (m_board_state.get(0) == lwinner && m_board_state.get(8) == lwinner) {
@@ -162,7 +165,8 @@ bool GameState::is_valid_move(move::Slide slide) const {
 
 		uint_fast8_t x_diff = static_cast<uint_fast8_t>(std::abs(static_cast<int_fast8_t>(slide.from_x - slide.to_x)));
 		uint_fast8_t y_diff = static_cast<uint_fast8_t>(std::abs(static_cast<int_fast8_t>(slide.from_y - slide.to_y)));
-			   //slide one square      slide two squares on x or y
+			   // slide one square     slide two squares on x or y
+			   //     v                              v
 		return (x_diff + y_diff == 1) || (x_diff != y_diff && x_diff + y_diff == 2);
 	}
 	return false;
