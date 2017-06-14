@@ -173,7 +173,6 @@ bool GameState::is_valid_move(move::SetColor set_color) const {
 }
 
 bool GameState::is_valid_move(move::Swap swp) const {
-	std::cout << std::boolalpha << Gameboard::alternative_rules << ' ' << (std::max(std::abs(swp.from_x - swp.to_x), std::abs(swp.from_y - swp.to_y)) == 1) << '\n';
 	return m_board_state.get(swp.from_x, swp.from_y) == m_current_player &&
 	       m_board_state.get(swp.to_x, swp.to_y) == square::type::available &&
 	       (!Gameboard::alternative_rules || std::max(std::abs(swp.from_x - swp.to_x), std::abs(swp.from_y - swp.to_y)) == 1);
