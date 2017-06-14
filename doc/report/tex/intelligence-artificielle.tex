@@ -44,9 +44,9 @@ au lieu de les ajouter. Avec cette heuristique, on obtient de bien meilleurs ré
 de base, et une partie de Force3 avec cette heuristique commence à ressembler à quelque chose (si la
 profondeur n'est pas trop faibe).
 
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{Heuristic_Normal}{}
+    \includegraphics[width=0.8\textwidth]{Heuristic_Normal}{}
     \caption{exemple d'évaluation pour l'heuristique `normale', avec l'I.A. en rouge (évaluation: -1)}
 \end{figure}
 \subsection{L'heuristique difficile}
@@ -54,19 +54,21 @@ profondeur n'est pas trop faibe).
 Cette heuristique fonctionne d'une manière similaire à l'heuristique `normale', mais en prenant plus de
 cas en compte, notamment en ce qui concerne les alignements de deux pions (sur chaque lignes, colonnes et diagonales):
 
-\begin{tabular}{lc}
+\begin{table}[H]
+    \begin{tabular}{lc}
+        Un pion allié                                 & +5    \\
+        Deux pions alliés et un pion adverse          & +11   \\
+        Deux pions alliés et une case vide (noire)    & +16   \\
+        Deux pions alliés et une case libre (blanche) & +21   \\
+        Trois pions alliés                            & +1000 \\
+    \end{tabular}
     \caption{Poids des différentes combinaisons de pions}
-    Un pion allié                                 & +5    \\
-    Deux pions alliés et un pion adverse          & +11   \\
-    Deux pions alliés et une case vide (noire)    & +16   \\
-    Deux pions alliés et une case libre (blanche) & +21   \\
-    Trois pions alliés                            & +1000 \\
-\end{tabular}
+\end{table}
 Les mêmes valeurs, évaluées pour l'adversaire, sont soustraites.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{Heuristic_Hard}{}
+    \includegraphics[width=0.8\textwidth]{Heuristic_Hard}{}
     \caption{exemple d'évaluation d'un plateau avec l'heuristique `difficile', avec l'I.A. en rouge (évaluation: +27)}
 \end{figure}
 
@@ -77,9 +79,9 @@ L'heuristique `légendaire' est une amélioration de l'heuristique `difficile'. 
 le plateau de la même manière que celle-ci, mais s'intéresse ensuite à l'emplacement de la case vide (noire). En effet,
 de part sa mobilité, celle-ci permet des alignements de trois `indirects', et mérite donc un traitement particulier.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{Heuristic_Legendary}{}
+    \includegraphics[width=0.8\textwidth]{Heuristic_Legendary}{}
     \caption{exemple d'évaluation un morceau de plateau avec l'heuristique `légendaire', avec l'I.A. en rouge (évaluation: +141, contre +26 pour l'heuristique précédente)}
 \end{figure}
 
