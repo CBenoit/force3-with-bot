@@ -1,10 +1,87 @@
-\chapter{Conception de l'intelligence artificielle} \label{chapter:intelligence-artificielle}
+\chapter{Conception de l'intelligence artificielle}\label{chapter:intelligence-artificielle}
 
 Pour la conception de l'intelligence artificielle, nous avons fait le choix de la variante nega-max de l'algorithme min-max
 avec l'élagae alpha-béta.
 
-Dans ce chapitre, nous rappelons ce qu'est min-max, nega-max et alpha-béta, puis nous présentons nos fonctions d'évaluation
-de l'état du plateau (heuristiques).
+Dans ce chapitre nous présentons nos fonctions d'évaluation de l'état du plateau (heuristiques),
+puis nous rappelons ce qu'est min-max, nega-max et alpha-béta.
+
+\section{Heuristiques}
+
+Afin de permettre à l'I.A. de choisir quel coup jouer, plusieurs étapes sont nécessaires:
+\begin{itemize}
+    \item trouver l'ensemble des coups jouables
+    \item évaluer les différents coups trouvés
+    \item sélectionner et jouer le meilleur coup.
+\end{itemize}
+
+L'heuristique est utilisée à la deuxième étape, et sert à évaluer les différents coups possibles
+— c'est à dire trouver si un coup est meilleur qu'un autre. Pour cela, l'heuristique analyse des
+plateaux de jeu, où chaque plateau analysé représente l'état du jeu tel qu'il sera si l'I.A. joue
+un coup en particulier. L'heuristique renvoie donc un nombre qui peut être faible (si le coup est
+mauvais), ou élevé (si le coup est bon). La valeur calculée par l'heuristique nous sert alors à
+évaluer la pertinence d'un coup. Nous avons développés différentes heuristiques, qui ont chacune
+des performances différentes:
+
+
+\subsection{L'heuristique facile: win-lose}
+
+L'heuristique win-lose est l'heuristique la plus simple et est la première à avoir été implémentée.
+Pour un plateau donné, elle renvoie la valeur maximum si l'I.A. a gagné, la valeur minimum si
+l'I.A. a perdu, et 0 si aucun joueur n'a gagné. Cette méthode d'évaluation ne donne pas de très bon
+résultats et n'est pas très bien élaguée pas l'algoritme du min-max (car elle n'a que trois valeur
+différentes), mais est rapide à implémenter.
+
+
+\subsection{L'heuristique normale}
+
+L'heuristique `normale' fonctionne de manière un peu plus subtile. Elle commence d'une manière similaire
+à l'heuristique win-lose: le plateau est évalué à 100 si l'I.A. a gagné, et -100 si elle a perdu.
+Dans le cas où la partie n'est pas terminée, cette heuristique va alors s'intéresser au pions en place,
+et va alors rajouter un point au plateau pour chaque pion de l'I.A. présent et chaque alignement de deux
+pions de l'I.A., et procède de la même manière pour les pions du joueur adverse, en retranchant les points
+au lieu de les ajouter. Avec cette heuristique, on obtient de bien meilleurs résultats qu'avec l'heuristique
+de base, et une partie de Force3 avec cette heuristique commence à ressembler à quelque chose (si la
+profondeur n'est pas trop faibe).
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{Heuristic_Normal}{}
+    \caption{exemple d'évaluation pour l'heuristique `normale', avec l'I.A. en rouge (évaluation: -1)}
+\end{figure}
+\subsection{L'heuristique difficile}
+
+Cette heuristique fonctionne d'une manière similaire à l'heuristique `normale', mais en prenant plus de
+cas en compte, notamment en ce qui concerne les alignements de deux pions (sur chaque lignes, colonnes et diagonales):
+
+\begin{tabular}{lc}
+    \caption{Poids des différentes combinaisons de pions}
+    Un pion allié                                 & +5    \\
+    Deux pions alliés et un pion adverse          & +11   \\
+    Deux pions alliés et une case vide (noire)    & +16   \\
+    Deux pions alliés et une case libre (blanche) & +21   \\
+    Trois pions alliés                            & +1000 \\
+\end{tabular}
+Les mêmes valeurs, évaluées pour l'adversaire, sont soustraites.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{Heuristic_Hard}{}
+    \caption{exemple d'évaluation d'un plateau avec l'heuristique `difficile', avec l'I.A. en rouge (évaluation: +27)}
+\end{figure}
+
+
+\subsection{Légendaire}
+
+L'heuristique `légendaire' est une amélioration de l'heuristique `difficile'. Elle commence tout d'abord par évaluer
+le plateau de la même manière que celle-ci, mais s'intéresse ensuite à l'emplacement de la case vide (noire). En effet,
+de part sa mobilité, celle-ci permet des alignements de trois `indirects', et mérite donc un traitement particulier.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{Heuristic_Legendary}{}
+    \caption{exemple d'évaluation un morceau de plateau avec l'heuristique `légendaire', avec l'I.A. en rouge (évaluation: +141, contre +26 pour l'heuristique précédente)}
+\end{figure}
 
 \section{Rappel de l'algorithme du min-max}
 
@@ -64,24 +141,4 @@ Ici, on effectue trois coupures :
     \item le nœud min a été mis à jour à 15 (\(\beta\) = 15). Comme c'est un nœud min, il ne peut que diminuer.
         La valeur de \(\alpha\) est à 89. On effectue donc la coupure.
 \end{itemize}
-
-\section{Heuristiques}
-
-…
-
-\subsection{Facile: win-lose}
-
-…
-
-\subsection{Normal}
-
-…
-
-\subsection{Difficile}
-
-…
-
-\subsection{Légendaire}
-
-…
 
