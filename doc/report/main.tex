@@ -1,4 +1,4 @@
-\documentclass[book, backcover, nodocumentinfo, french]{upmethodology-document}
+\documentclass[report, backcover, french, nodocumentinfo]{upmethodology-document}
 \usepackage{textcomp} % for french...
 \usepackage{graphicx}
 
@@ -21,9 +21,9 @@
 \incversion{\makedate{14}{05}{2017}}{Initial version.}{\upmpublic}
 \incversion{\makedate{14}{05}{2017}}{Last update.}{\upmpublic}
 
-\setdockeywords{IA41, intelligence artificielle, minimax, alpha beta, negamax, \LaTeX}
+\setdockeywords[french]{IA41, intelligence artificielle, minimax, alpha beta, negamax, \LaTeX}
 
-\makeindex
+\frenchbsetup{StandardLayout=true,ReduceListSpacing=false,CompactItemize=false}
 
 \graphicspath{{./fig/}}
 
@@ -33,12 +33,14 @@
 \begin{document}
 
 %######################### list of figures, tables, algo, … ########
-\frontmatter
 
-\tableofcontents
+\upmdocumentsummary{}
+\upmdocumentauthors{}
+\upmpublicationpage{}
+\tableofcontents{}
+\newpage{}
 
-%######################### Main body ###############################
-\mainmatter
+% ######################### Main body ###############################
 
 \include{./tex/introduction}
 
@@ -52,12 +54,9 @@
 
 \include{./tex/features-logiciel}
 
-%##################### Conclusion, bibliography & index ############
-\backmatter
+% ##################### Conclusion, bibliography & index ############
 
 \include{./tex/conclusion}
-
-\printindex % see http://winnt.developpez.com/tutoriels/latex-index/
 
 \end{document}
 
