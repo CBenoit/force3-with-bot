@@ -11,7 +11,57 @@ Le code se trouve dans le fichier \emph{src/logic/boardsquare.hpp}.
 
 \section{Plateau de jeu}\label{struct:boardstate}
 
-…
+La structure représentant un plateau de jeu a été optimisé pour prendre le moins de
+place possible en mémoire. En effet, lors de l'exploration de l'arbre par l'ia,
+on peut devoir créer des centaines, voire des miliers de plateaux de jeux différents.
+
+Le plateau de jeu s'est donc finalement vu réduire à un \emph{uint\_fast32\_t}, c'est à dire
+32 bits sur une architecture 32 bits, et 64 sur une architecture 64 bits. \\
+
+En effet, chaque case ne peut être que dans quatre états différents:
+\begin{itemize}
+    \item Bleu
+    \item Rouge
+    \item Blanc (disponible)
+    \item Noir  (trou)
+\end{itemize}
+
+Il faut donc 2bits minimum pour représenter chaque case. Comme on a 9 cases différentes,
+le minimum d'espace nécessaire pour stocker un plateau est de $2 × 9 = 18$bits.
+
+Finalement, le plateau est représenté par les 18bits de poids faible de l'entier, et on ignore
+les bits de poids forts. On a de plus $Blanc = 00$, $Noir = 01$, $Rouge = 10$ et $Bleu = 11$:
+
+\begin{figure}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        Bleu  & Blanc & Rouge \\
+        \hline
+        Bleu  & Noir  & Blanc \\
+        \hline
+        Rouge & Bleu  & Rouge \\
+        \hline
+    \end{tabular}
+    \enskip
+    \begin{tabular}{|c|c|c|}
+        \hline
+        11 & 00 & 10 \\
+        \hline
+        11 & 01 & 00 \\
+        \hline
+        10 & 11 & 10 \\
+        \hline
+    \end{tabular}
+    \enskip
+    \begin{tabular}{|c|}
+        \hline
+        00000000 \ldots 0000 11 00 10 11 01 00 10 11 10 \\
+        \hline
+    \end{tabular}
+    \newline
+    \caption{Différentes façons de représenter un même plateau de jeu.}
+\end{figure}
 
 \section{Coup à jouer}
 
