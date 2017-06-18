@@ -9,7 +9,20 @@ Le code complet des deux algorithmes suivants se trouvent dans le fichier \emph{
 La méthode \emph{think} est appelé pour demander à l'IA de prendre une décision en choisissant le prochain coup à
 jouer.
 
+Le type \emph{heuristic::return\_t} représente un score d'heuristique.
+
 \section{Code du nega-max avec élagage alpha-béta}\label{src:negamax}
 
 \lstinputlisting[language=C++]{./src_samples/negamax.cpp}
+
+Le type \emph{heuristic::return\_t} représente un score d'heuristique.
+
+\section{Code de l'heuristique difficile}\label{src:heuristic_hard}
+
+\lstinputlisting[language=C++]{./src_samples/heuristic_hard.cpp}
+
+La fonction prend en paramètre le joueur et trois pions et retourne le score associé.
+Le code complet se trouve dans le fichier \emph{src/logic/heuristic.cpp} du projet.
+
+Le type \emph{return\_t} représente un score d'heuristique.
 
