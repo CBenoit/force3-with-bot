@@ -48,6 +48,8 @@ profondeur n'est pas trop faibe.
     \caption{exemple d'évaluation pour l'heuristique « normale », avec l'I.A. en rouge (évaluation: -1)}
 \end{figure}
 
+L'extrait de code pour cette heuristique se trouve à l'annexe \ref{src:heuristic_normal}.
+
 \subsection{L'heuristique difficile}
 
 Cette heuristique fonctionne d'une manière similaire à l'heuristique « normale », mais en prenant plus de
@@ -71,8 +73,6 @@ Les mêmes valeurs, évaluées pour l'adversaire, sont soustraites.
     \includegraphics[width=0.8\textwidth]{Heuristic_Hard}{}
     \caption{exemple d'évaluation d'un plateau avec l'heuristique « difficile », avec l'I.A. en rouge (évaluation: +27)}
 \end{figure}
-
-L'extrait de code pour cette heuristique se trouve à l'annexe \ref{src:heuristic_hard}.
 
 \subsection{Légendaire}
 
@@ -159,12 +159,19 @@ Nous avons également ajouté quelques fonctionnalités dans notre implémentati
         En effet, lorsque la profondeur n'est pas trop élevé, l'absence d'élagage ne pose aucun problème de performances et
         permet de déterminer plus de transitions équivalentes et donc de permettre de diversifier le jeu de l'IA : plus
         intéressant en tant que joueur.
-    \item On ajoute [la profondeur actuelle \(-\) la profondeur maximale] au score des nœuds terminaux pour priviligier les
-        transitions qui mènent à une victoire plus rapide. Seuls les nœuds terminaux qui entraînent la défaite ou la victoire
-        n'ont pas toujours la profondeur actuelle égale à la profondeur maximale et sont donc les seuls concernés par cette
-        amélioration. Ainsi, l'IA ne cherchera jamais à faire durer inutilement la partie que ce soit parce qu'elle a gagné
-        d'avance ou perdu d'avance.
+    \item Dans les heuristiques, on ajoute ou retranche la valeur de la profondeur actuelle au score des nœuds terminaux selon
+        si on est gagnant ou non au nœud donné. Cela a pour effet de priviligier les transitions qui mènent à une victoire plus
+        rapide ou une défaite plus lente (notons qu'il faut que les valeurs de défaite et de victoire soient suffisamment
+        grandes).
+        Ainsi, l'IA ne cherchera jamais à faire durer inutilement la partie si elle sait qu'elle a déjà gagner, mais cherchera
+        à faire durer la partie même si elle estime qu'elle a déjà perdu.
+    \item Encore dans les heuristiques, même si on est dans un nœud perdant, on continue tout de même l'évaluation du plateau
+        (pas de return avec le score minimal, on retranche juste au score courant le score minimal). Cela permet de faire
+        une distinction des états perdants dans le cas où tous les choix mènent vers une défaite. C'est utile contre un joueur
+        humain qui pourrait faire une erreur : de cette façon, l'IA montre moins facilement l'ouverture et peut éventuellement se
+        rattraper.
 \end{itemize}
 
 L'extrait de code pour la prise de décision se trouve à l'annexe \ref{src:think}.
+Exemple de l'heuristique normal à l'annexe \ref{src:heuristic_normal}.
 

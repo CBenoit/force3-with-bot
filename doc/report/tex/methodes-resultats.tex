@@ -19,9 +19,43 @@ Après celà, nous avons implémenté un algorithme d'élagage apha beta, afin d
 IA\@. L'élagage alpha beta reste sans grand effet lors de l'utilisation de l'heuristique de base, car celle-ci est quasi binaire
 et n'offre donc que peu de possibilité de coupures.
 
-\section{Exemple d'une situation}
+\section{Exemple de situations}
 
-% TODO
+Dans cette section, nous présentons trois situations avec, en bleu, un joueur humain et, en rouge, une IA
+dotée de l'heuristique « normal » et du néga-max sans élagage en profondeur 3.
+
+\subsection{Situation 1}
+
+\includegraphics[width=0.4\textwidth]{situation_1_1}{}
+\(\Rightarrow\)
+\includegraphics[width=0.4\textwidth]{situation_1_2}{}
+
+Ici, il faut réagir tout de suite : deux pions bleus sont alignés et il y a de la place pour placer le troisième.
+L'IA place donc tout simplement un pion rouge de telle sorte que le bleu ne puisse plus aligner trois pions.
+
+\subsection{Situation 2}
+
+\includegraphics[width=0.4\textwidth]{situation_2_1}{}
+\(\Rightarrow\)
+\includegraphics[width=0.4\textwidth]{situation_2_2}{}
+
+Comme pour la situation précédente, le joueur bleu menace d'aligner trois pions, mais cette fois sur la diagonale.
+L'IA se retrouve donc cette fois encore contrainte de bloquer le bleu. Elle réagit en déplaçant un pion rouge déjà en
+place. À priori, il est plus efficace de toujours placer un nouveau pion tant qu'on en a un de disponible, mais l'arbre
+de jeu n'est que de profondeur 3 et cette composante n'est pas prise en compte dans l'heuristique « normal ». Les coups « placer
+un nouveau pion » et « déplacer le pion déjà existant » ont donc le même score (car dans tous les cas, cela ne permet pas
+d'avoir plus de pions adjacents) et peuvent être tous les deux choisis aléatoirement.
+
+\subsection{Situation 3}
+
+\includegraphics[width=0.4\textwidth]{situation_3_1}{}
+\(\Rightarrow\)
+\includegraphics[width=0.4\textwidth]{situation_3_2}{}
+
+Un peu plus tard dans la partie, cette situation survient. Le joueur rouge ne peut plus que perdre : soit il place un pion
+rouge au centre et le bleu peut tout simplement faire un glissement de deux cases sur la gauche. Soit il fait un glissement
+de la case grise sur la gauche et cela n'empêche toujours pas le bleu de faire un glissement, d'une seule case cette fois-ci, sur
+la gauche. L'IA choisit donc l'une des meilleures solutions malgré sa défaite assurée : au cas où le joueur bleu fasse une erreur.
 
 \section{Résultats}
 
