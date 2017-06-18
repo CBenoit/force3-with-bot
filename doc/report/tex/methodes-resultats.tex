@@ -1,28 +1,35 @@
 \chapter{Méthodes et résultats}\label{chapter:methodes-resultats}
 
+Dans ce chapitre, nous présentons la méthode que nous avons utiliser pour obtenir des résultats au niveau de l'IA du jeu.
+
 \section{Méthodes d'obtention des résultats}
 
-    Afin de réaliser notre projet d'IA41, nous avons procédé de la manière suivante:
-    
-    \begin{itemize}
-        \item Implémentation de l'algorithme du negamax sans élagage alpha beta.
-        \item Écriture d'une heuristique sommaire de test.
-        \item Tests approfondis de l'algorithme pour vérifier sonb fonctionnement en jouant contre l'IA\@.
-        \item Écriture de nouvelles heuristiques.
-        \item Faire s'affronter deux IAs en faisant varier l'heuristique et la profondeur de l'arbre min-max pour voir laquelle est
-            la meilleure.
-    \end{itemize}
+Afin de réaliser notre projet d'IA41, nous avons procédé de la manière suivante:
 
-    Après celà, nous avons implémenté un algorithme d'élagage apha beta, afin d'accélérer la ``vitesse de reflexion'' des différentes
-    IA\@. L'élagage alpha beta reste sans grand effet lors de l'utilisation de l'heuristique de base, car celle-ci est quasi binaire
-    et n'offre donc que peu de possibilité de coupe.
+\begin{itemize}
+    \item Implémentation de l'algorithme du negamax sans élagage alpha beta.
+    \item Écriture d'une heuristique sommaire de test.
+    \item Tests approfondis de l'algorithme pour vérifier son fonctionnement en jouant contre l'IA\@.
+    \item Écriture de nouvelles heuristiques.
+    \item Faire s'affronter deux IAs en faisant varier l'heuristique et la profondeur de l'arbre min-max pour voir laquelle est
+        la meilleure.
+\end{itemize}
+
+Après celà, nous avons implémenté un algorithme d'élagage apha beta, afin d'accélérer la « vitesse de reflexion » des différentes
+IA\@. L'élagage alpha beta reste sans grand effet lors de l'utilisation de l'heuristique de base, car celle-ci est quasi binaire
+et n'offre donc que peu de possibilité de coupures.
 
 \section{Résultats}
 
-    \(\rightarrow\) le premier joueur a toujours moyen de gagner entre 4 et 6 coups
-    (on a au début cru à une anomalie de l'algorithme nega-max).
+Au fur et à mesure de l'implémentation des différents éléments de l'IA, nous avons obtenu divers résultats :
 
-    \(\rightarrow\) classement des heuristiques.
-
-    \(\rightarrow\) l'IA est meilleure que le joueur.
+\begin{itemize}
+    \item Nous avons découvert que le premier joueur a toujours moyen de gagner entre 4 et 6 coups
+        (on a au début cru à une anomalie de l'algorithme nega-max).
+    \item Il est aussi possible de tomber dans des cycles (ou états stables) où aucun joueur ne peut gagner.
+    \item Nous avons pu classer les heuristiques selon le nombres de parties gagnées contre telle ou telle heuristiques à
+        telle ou telle profondeur en faisant un mini tournoi d'IA\@. C'est là qu'on leur a donné leur nom « facile », « normal », …
+    \item Il est aussi clair que l'IA est meilleure que le joueur à partir d'une certaine profondeur en particulier pour les
+        heuristiques « difficile » et « légendaire ».
+\end{itemize}
 

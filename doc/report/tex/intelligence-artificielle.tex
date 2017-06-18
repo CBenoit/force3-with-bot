@@ -23,35 +23,34 @@ mauvais), ou élevé (si le coup est bon). La valeur calculée par l'heuristique
 évaluer la pertinence d'un coup. Nous avons développés différentes heuristiques, qui ont chacune
 des performances différentes:
 
-
 \subsection{L'heuristique facile: win-lose}
 
 L'heuristique win-lose est l'heuristique la plus simple et est la première à avoir été implémentée.
 Pour un plateau donné, elle renvoie la valeur maximum si l'I.A. a gagné, la valeur minimum si
 l'I.A. a perdu, et 0 si aucun joueur n'a gagné. Cette méthode d'évaluation ne donne pas de très bon
-résultats et n'est pas très bien élaguée pas l'algoritme du min-max (car elle n'a que trois valeur
-différentes), mais est rapide à implémenter.
-
+résultats et n'est pas très bien élaguée par l'alpha-béta car elle ne s'intéresse qu'aux nœuds terminaux, tous les
+autres sont équivalents.
 
 \subsection{L'heuristique normale}
 
-L'heuristique `normale' fonctionne de manière un peu plus subtile. Elle commence d'une manière similaire
-à l'heuristique win-lose: le plateau est évalué à 100 si l'I.A. a gagné, et -100 si elle a perdu.
-Dans le cas où la partie n'est pas terminée, cette heuristique va alors s'intéresser au pions en place,
+L'heuristique « normale » fonctionne de manière un peu plus subtile. Elle commence d'une manière similaire
+à l'heuristique win-lose : le plateau est évalué à 100 si l'I.A. a gagné, et -100 si elle a perdu.
+Dans le cas où la partie n'est pas terminée, cette heuristique va alors s'intéresser aux pions en place,
 et va alors rajouter un point au plateau pour chaque pion de l'I.A. présent et chaque alignement de deux
 pions de l'I.A., et procède de la même manière pour les pions du joueur adverse, en retranchant les points
 au lieu de les ajouter. Avec cette heuristique, on obtient de bien meilleurs résultats qu'avec l'heuristique
-de base, et une partie de Force3 avec cette heuristique commence à ressembler à quelque chose (si la
-profondeur n'est pas trop faibe).
+de base, et une partie de Force3 avec cette heuristique commence à devenir intéressante si la
+profondeur n'est pas trop faibe.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{Heuristic_Normal}{}
-    \caption{exemple d'évaluation pour l'heuristique `normale', avec l'I.A. en rouge (évaluation: -1)}
+    \caption{exemple d'évaluation pour l'heuristique « normale », avec l'I.A. en rouge (évaluation: -1)}
 \end{figure}
+
 \subsection{L'heuristique difficile}
 
-Cette heuristique fonctionne d'une manière similaire à l'heuristique `normale', mais en prenant plus de
+Cette heuristique fonctionne d'une manière similaire à l'heuristique « normale », mais en prenant plus de
 cas en compte, notamment en ce qui concerne les alignements de deux pions (sur chaque lignes, colonnes et diagonales):
 
 \begin{table}[H]
@@ -64,26 +63,28 @@ cas en compte, notamment en ce qui concerne les alignements de deux pions (sur c
     \end{tabular}
     \caption{Poids des différentes combinaisons de pions}
 \end{table}
+
 Les mêmes valeurs, évaluées pour l'adversaire, sont soustraites.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{Heuristic_Hard}{}
-    \caption{exemple d'évaluation d'un plateau avec l'heuristique `difficile', avec l'I.A. en rouge (évaluation: +27)}
+    \caption{exemple d'évaluation d'un plateau avec l'heuristique « difficile », avec l'I.A. en rouge (évaluation: +27)}
 \end{figure}
-
 
 \subsection{Légendaire}
 
-L'heuristique `légendaire' est une amélioration de l'heuristique `difficile'. Elle commence tout d'abord par évaluer
+L'heuristique « légendaire » est une amélioration de l'heuristique « difficile ». Elle commence tout d'abord par évaluer
 le plateau de la même manière que celle-ci, mais s'intéresse ensuite à l'emplacement de la case vide (noire). En effet,
-de part sa mobilité, celle-ci permet des alignements de trois `indirects', et mérite donc un traitement particulier.
+de part sa mobilité, celle-ci permet des alignements de trois « indirects », et mérite donc un traitement particulier.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{Heuristic_Legendary}{}
-    \caption{exemple d'évaluation un morceau de plateau avec l'heuristique `légendaire', avec l'I.A. en rouge (évaluation: +141, contre +26 pour l'heuristique précédente)}
+    \caption{exemple d'évaluation un morceau de plateau avec l'heuristique « légendaire », avec l'I.A. en rouge (évaluation: +141, contre +26 pour l'heuristique précédente)}
 \end{figure}
+
+Les heuristiques se trouvent dans le fichier \emph{src/logic/heuristic.cpp}.
 
 \section{Rappel de l'algorithme du min-max}
 
@@ -96,7 +97,7 @@ Le principe de l'algorithme est très simple : on parcourt l'arbre de jeu dans 
 Pour cela, on doit distinguer deux types de nœuds : les nœuds max (nœuds joueur) et les nœuds min (nœuds adverse).
 Les nœuds min prennent la valeur la plus faible de leurs enfants tandis que les nœuds max prennent la valeur la
 plus élevée de leurs enfants.
-Pour les feuilles de l'arbre, on évalue l'état correspondant du jeu.
+Pour les feuilles de l'arbre, on évalue l'état correspondant du jeu avec l'une des heuristiques précédentes.
 
 Voici un arbre d'exemple :
 
@@ -143,4 +144,25 @@ Ici, on effectue trois coupures :
     \item le nœud min a été mis à jour à 15 (\(\beta\) = 15). Comme c'est un nœud min, il ne peut que diminuer.
         La valeur de \(\alpha\) est à 89. On effectue donc la coupure.
 \end{itemize}
+
+L'extrait de code du nega-max avec élagage alpha-béta se trouve à l'annexe \ref{src:negamax}.
+
+\section{Amélioration de la prise de décision}
+
+Nous avons également ajouté quelques fonctionnalités dans notre implémentation du nega-max :
+
+\begin{itemize}
+    \item L'IA peut choisir aléatoirement une transition parmi toutes celles qui ont obtenu un score identique.
+    \item L'élagage alpha-béta n'est activé que lorsque l'on demande une profondeur supérieure à un certain seuil fixé.
+        En effet, lorsque la profondeur n'est pas trop élevé, l'absence d'élagage ne pose aucun problème de performances et
+        permet de déterminer plus de transitions équivalentes et donc de permettre de diversifier le jeu de l'IA : plus
+        intéressant en tant que joueur.
+    \item On ajoute [la profondeur actuelle \(-\) la profondeur maximale] au score des nœuds terminaux pour priviligier les
+        transitions qui mènent à une victoire plus rapide. Seuls les nœuds terminaux qui entraînent la défaite ou la victoire
+        n'ont pas toujours la profondeur actuelle égale à la profondeur maximale et sont donc les seuls concernés par cette
+        amélioration. Ainsi, l'IA ne cherchera jamais à faire durer inutilement la partie que ce soit parce qu'elle a gagné
+        d'avance ou perdu d'avance.
+\end{itemize}
+
+L'extrait de code pour la prise de décision se trouve à l'annexe \ref{src:think}.
 
