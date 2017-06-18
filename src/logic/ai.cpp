@@ -62,20 +62,12 @@ heuristic::return_t AI::negamax(GameState game_state, bool is_opponent, size_t r
 		}
 		return max;
 	} else { // this is a leaf
-		heuristic::return_t depth_bonus = 0;
-		if (remaining_depth != 0) {
-			if (winner == (is_opponent ? game_state.get_previous_player() : game_state.get_current_player())) {
-				depth_bonus = remaining_depth;
-			} else {
-				depth_bonus = -remaining_depth;
-			}
-		}
 		/* by adding or removing the remaining depth to the score value, winning states that are the
 		   nearest of the root gets a better score while losing states gets a malus (doesn't matter when
 		   it is a not winning state: remaining depth is equal to 0 in that case. */
 		return is_opponent
-				? -(m_heuristic(game_state, game_state.get_previous_player()) + depth_bonus)
-				: (m_heuristic(game_state, game_state.get_current_player()) + depth_bonus);
+				? -(m_heuristic(game_state, game_state.get_previous_player(), m_depth - remaining_depth))
+				: (m_heuristic(game_state, game_state.get_current_player(), m_depth - remaining_depth));
 	}
 }
 
@@ -102,16 +94,8 @@ heuristic::return_t AI::negamax(GameState game_state, bool is_opponent, size_t r
 		}
 		return max;
 	} else { // this is a leaf
-		heuristic::return_t depth_bonus = 0;
-		if (remaining_depth != 0) {
-			if (winner == (is_opponent ? game_state.get_previous_player() : game_state.get_current_player())) {
-				depth_bonus = remaining_depth;
-			} else {
-				depth_bonus = -remaining_depth;
-			}
-		}
 		return is_opponent
-				? -(m_heuristic(game_state, game_state.get_previous_player()) + depth_bonus)
-				: (m_heuristic(game_state, game_state.get_current_player()) + depth_bonus);
+				? -(m_heuristic(game_state, game_state.get_previous_player(), m_depth - remaining_depth))
+				: (m_heuristic(game_state, game_state.get_current_player(), m_depth - remaining_depth));
 	}
 }

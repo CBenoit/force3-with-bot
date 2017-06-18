@@ -11,11 +11,11 @@ template <return_t Three = 1000,
 		  return_t TwoNOther = 11,
 		  return_t One = 5,
 		  return_t Zero = 0>
-static inline heuristic::return_t align_value(square::type player, square::type st0, square::type st1, square::type st2) {
+static inline heuristic::return_t align_value(square::type player, square::type st0, square::type st1, square::type st2, long bonus = 0) {
 	if (st0 == player) {
 		if (st1 == player) {
 			if (st2 == player) {
-				return Three;
+				return Three + bonus;
 			} else if (st2 == square::type::available) {
 				return TwoNAvailable;
 			} else if (st2 == square::type::empty_square) {
@@ -52,10 +52,12 @@ static inline heuristic::return_t align_value(square::type player, square::type 
 	return Zero;
 }
 
-return_t heuristic::hard(const GameState& gs, square::type player) {
+return_t heuristic::hard(const GameState& gs, square::type player, size_t depth) {
 
 	square::type opponent = GameState::opposite_player(player);
 	return_t value{0};
+
+	depth *= 275;
 
 	BoardState bs{gs.get_board_state()};
 	for (uint_fast8_t i{BOARD_DIMENSION} ; i-- ;) {
@@ -64,25 +66,25 @@ return_t heuristic::hard(const GameState& gs, square::type player) {
 		square::type v0_i = bs.get(i*3), v1_i = bs.get(1,i), v2_i = bs.get(2,i);
 
 		// vert
-		value += align_value(player, vi_0, vi_1, vi_2);
-		value -= align_value(opponent, vi_0, vi_1, vi_2);
+		value += align_value(player, vi_0, vi_1, vi_2, -depth);
+		value -= align_value(opponent, vi_0, vi_1, vi_2, depth);
 
 		// hzt
-		value += align_value(player, v0_i,  v1_i, v2_i);
-		value -= align_value(opponent, v0_i,  v1_i, v2_i);
+		value += align_value(player, v0_i,  v1_i, v2_i, -depth);
+		value -= align_value(opponent, v0_i,  v1_i, v2_i, depth);
 	}
 	// diagonals
-	value += align_value(player, bs.get(0), bs.get(4), bs.get(8));
-	value += align_value(player, bs.get(2), bs.get(4), bs.get(6));
-	value -= align_value(opponent, bs.get(0), bs.get(4), bs.get(8));
-	value -= align_value(opponent, bs.get(2), bs.get(4), bs.get(6));
+	value += align_value(player, bs.get(0), bs.get(4), bs.get(8), -depth);
+	value += align_value(player, bs.get(2), bs.get(4), bs.get(6), -depth);
+	value -= align_value(opponent, bs.get(0), bs.get(4), bs.get(8), depth);
+	value -= align_value(opponent, bs.get(2), bs.get(4), bs.get(6), depth);
 	return value;
 }
 
-return_t heuristic::legendary(const GameState& game_state, square::type player) {
+return_t heuristic::legendary(const GameState& game_state, square::type player, size_t depth) {
 
 	square::type opponent = GameState::opposite_player(player);
-	return_t value{hard(game_state, player)};
+	return_t value{hard(game_state, player, depth)};
 
 	auto bs = game_state.get_board_state();
 	uint_fast8_t idx{0};
@@ -149,13 +151,13 @@ bool is_there_a_connected_token(const GameState& game_state, square::type type, 
 	return false;
 }
 
-return_t heuristic::normal(const GameState& game_state, square::type player) {
-	return_t score = 0;
+return_t heuristic::normal(const GameState& game_state, square::type player, size_t depth) {
+	return_t score = depth;
 
 	square::type winner;
 	if (game_state.is_there_a_winner(&winner)) {
 		if (winner == player) {
-			return 100;
+			return 100 - depth;
 		} else {
 			score = -100;
 		}
@@ -186,10 +188,10 @@ return_t heuristic::normal(const GameState& game_state, square::type player) {
 	return score;
 }
 
-return_t heuristic::easy(const GameState& game_state, square::type player) {
+return_t heuristic::easy(const GameState& game_state, square::type player, size_t depth) {
 	square::type winner;
 	if (game_state.is_there_a_winner(&winner)) {
-		return winner == player ? 100 : -100;
+		return winner == player ? 1000 - depth : -1000 + depth;
 	}
 	return 0;
 }
