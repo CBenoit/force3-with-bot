@@ -31,12 +31,10 @@ heuristic::return_t AI::negamax(GameState game_state, bool is_opponent,
     } else { // this is a leaf
         return is_opponent
             ? -(m_heuristic(game_state,
-                        game_state.get_previous_player()) + remaining_depth)
+                        game_state.get_previous_player()),
+                        m_depth - remaining_depth)
             : (m_heuristic(game_state,
-                        game_state.get_current_player()) + remaining_depth);
-        // by adding the remaining depth to the score value, winning states
-        // that are the nearest of the root gets a better score (doesn't
-        // matter when it is a not winning state: remaining depth is equal
-        // to 0 in that case).
+                        game_state.get_current_player()),
+                        m_depth - remaining_depth);
     }
 }

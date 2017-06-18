@@ -50,8 +50,7 @@ move::MoveWrapper AI::think(GameState game_state) const {
 
 // negamax without alpha beta pruning.
 heuristic::return_t AI::negamax(GameState game_state, bool is_opponent, size_t remaining_depth) const {
-	square::type winner;
-	if (remaining_depth && !game_state.is_there_a_winner(&winner)) {
+	if (remaining_depth && !game_state.is_there_a_winner()) {
 		// generates neighbours states and determine the score of this node using their score
 		std::vector<GameState> neighbours = game_state.generate_neighbours();
 		heuristic::return_t max = std::numeric_limits<heuristic::return_t>::min();
@@ -62,9 +61,6 @@ heuristic::return_t AI::negamax(GameState game_state, bool is_opponent, size_t r
 		}
 		return max;
 	} else { // this is a leaf
-		/* by adding or removing the remaining depth to the score value, winning states that are the
-		   nearest of the root gets a better score while losing states gets a malus (doesn't matter when
-		   it is a not winning state: remaining depth is equal to 0 in that case. */
 		return is_opponent
 				? -(m_heuristic(game_state, game_state.get_previous_player(), m_depth - remaining_depth))
 				: (m_heuristic(game_state, game_state.get_current_player(), m_depth - remaining_depth));
@@ -74,8 +70,7 @@ heuristic::return_t AI::negamax(GameState game_state, bool is_opponent, size_t r
 // negamax with alpha beta pruning.
 heuristic::return_t AI::negamax(GameState game_state, bool is_opponent, size_t remaining_depth,
 									   heuristic::return_t alpha, heuristic::return_t beta) const {
-	square::type winner;
-	if (remaining_depth && !game_state.is_there_a_winner(&winner)) {
+	if (remaining_depth && !game_state.is_there_a_winner()) {
 		std::vector<GameState> neighbours = game_state.generate_neighbours();
 		heuristic::return_t max = std::numeric_limits<heuristic::return_t>::min();
 		for (auto& gs : neighbours) {
