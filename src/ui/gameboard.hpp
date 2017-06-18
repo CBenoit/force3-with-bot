@@ -15,7 +15,7 @@
 
 #include "logic/gamestate.hpp"
 #include "logic/ai.hpp"
-#include "common/move.hpp"
+#include "src/logic/move.hpp"
 
 class QGridLayout;
 

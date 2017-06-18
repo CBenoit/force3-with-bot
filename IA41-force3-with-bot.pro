@@ -25,15 +25,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += $$PWD/src/
 
 HEADERS += \
-    src/common/boardsquare.hpp \
     src/common/messagehandler.hpp \
-    src/common/move.hpp \
-    src/common/movewrapper.hpp \
     src/common/tree.hpp \
     src/logic/ai.hpp \
+    src/logic/boardsquare.hpp \
     src/logic/boardstate.hpp \
     src/logic/gamestate.hpp \
     src/logic/heuristic.hpp \
+    src/logic/move.hpp \
+    src/logic/movewrapper.hpp \
     src/ui/force3.hpp \
     src/ui/gameboard.hpp \
     src/ui/gamesquare.hpp \

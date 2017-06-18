@@ -17,9 +17,9 @@
 
 #include "logic/boardstate.hpp"
 #include "ui/gamesquare.hpp"
-#include "common/boardsquare.hpp"
-#include "common/move.hpp"
-#include "common/movewrapper.hpp"
+#include "boardsquare.hpp"
+#include "move.hpp"
+#include "movewrapper.hpp"
 
 class GameState
 {
