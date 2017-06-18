@@ -1,22 +1,21 @@
-\chapter{Étude du problème}
+\chapter{Analyse du problème}
 
 Dans ce chapitre, nous allons détailler la phase d'étude qui a précédé le
 développement de notre solution.
 
-Dans ce sujet, nous avons devions réaliser une intelligence artificielle pour
-jouer au force 3.
-Le Force 3 peut-être soit représenté par une succession d'état. Cependant on
-peut retourner dans un état précédant, de plus même si la complexité du jeu
-n'est pas très élevé, on ne peut quand même pas lister tout les états.
+Dans ce sujet, nous devions réaliser une intelligence artificielle pour
+jouer au Force 3.
+Le Force 3 peut être représenté par une succession d'états. Cependant il est
+possible de retourner dans un état précédent selon les actions des joueurs.
+Nous devons donc utiliser un arbre au lieu d'un graphe.
+De plus même si la complexité combinatoire du jeu n'est pas très élevée, on ne peut quand même pas lister tous les états
+en un temps raisonnable.
 
 \section{Problématique}
 
-Compte tenu de ce qui a été dit précédemment, nous nous sommes penchés sur la
-problématique suivante: \\
-« Comment réaliser une intelligence artificielle jouant au force 3 en temps
-réel ? » \\
-Afin de répondre à cette problématique nous avons analysé les solutions
-suivantes.
+Compte tenu de ce qui a été dit précédemment, nous nous sommes penchés sur la problématique suivante: \\
+« Comment réaliser une intelligence artificielle jouant au force 3 avec un temps de réflexion raisonnable » \\
+Afin de répondre à cette problématique nous avons analysé les solutions suivantes.
 
 \section{Minimax}
 
@@ -26,25 +25,19 @@ Cependant, nous avons préféré utiliser une simplification du minimax le néga
 
 \section{Négamax}
 
-Le négamax étant une simplification du minimax, requis les même conditions,
-le jeu considéré doit être un «jeu à somme nulle», c'est à dire un jeu où si
+Le négamax, étant juste une simplification du minimax, requiert les même conditions,
+le jeu considéré doit être un « jeu à somme nulle », c'est à dire un jeu où si
 l'action est positive pour un joueur alors elle doit être négative pour l'autre
-joueur, ce qui est le cas du force 3. De plus, le jeu doit être à information
-complète, ce qui signifie que dans notre cas, toute les informations doivent
+joueur, ce qui est le cas du Force 3. De plus, le jeu doit être à informations
+complètes, ce qui signifie que dans notre cas, toute les informations doivent
 être contenus dans le plateau de jeu.
 
-Comme toute les conditions sont réunis, nous avons choisi d'utiliser le négamax.
+Comme toute les conditions sont réunies, nous pouvons utiliser le négamax (valide aussi pour le minimax).
 
 \section{Négamax avec élagage alpha-bêta}
 
-Malgré le fait que le négamax soit adapté au force 3, il ne peut répondre seul à
-la problématique, en effet, nous avons du rajouter l'élagage alpha-bêta pour
-respecter la contrainte temps réel. En effet si l'on augmente la profondeur dans
-le négamax, l'intelligence artificielle met trop de temps à réfléchir ce qui ne
-permet pas au joueur humain d'apprécier pleinement la partie.
+Malgré le fait que le négamax soit adapté au Force 3, il ne peut répondre seul à
+la problématique, en effet, nous souhaitons que le joueur puisse se frotter à une IA très forte
+s'il en a envie, c'est à dire que l'IA doit pouvoir travailler avec un arbre très profond. Nous envisagons donc
+de rajouter l'élagage alpha-bêta pour respecter la contrainte de temps même avec un arbre profond.
 
-En rajoutant l'élagage alpha-bêta, on peut ainsi augmenter la profondeur et
-améliorer la capacité d'analyse de l'intelligence artificielle tout en gardant
-un temps de réflection similaire à celui d'un humain.
-
-%  LocalWords: alpha-bêta minimax négamax
