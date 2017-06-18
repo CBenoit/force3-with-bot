@@ -2,8 +2,8 @@
 #define ALPHABETA_HPP
 
 #include "gamestate.hpp"
-#include "movewrapper.hpp"
-#include "gamesquare.hpp"
+#include "src/common/movewrapper.hpp"
+#include "src/ui/gamesquare.hpp"
 #include "heuristic.hpp"
 
 /**

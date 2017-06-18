@@ -1,7 +1,7 @@
 #ifndef ALPHABETAMOVE_HPP
 #define ALPHABETAMOVE_HPP
 
-#include "move.hpp"
+#include "src/common/move.hpp"
 
 #define MOVE_TYPE_NONE 0
 #define MOVE_TYPE_SLIDE 1

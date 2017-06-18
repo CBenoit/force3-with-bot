@@ -3,7 +3,7 @@
 #include <ctime>
 
 #include "ai.hpp"
-#include "move.hpp"
+#include "src/common/move.hpp"
 
 #define ALPHA_BETA_DEPTH_THRESHOLD 7
 

@@ -8,7 +8,7 @@
 //                                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "src/mainmenu.hpp"
+#include "src/ui/mainmenu.hpp"
 #include "ui_mainmenu.h"
 
 MainMenu::MainMenu(QWidget *parent) :

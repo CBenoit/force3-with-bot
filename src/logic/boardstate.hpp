@@ -16,7 +16,7 @@
 #include <ostream>
 #include <vector>
 
-#include "boardsquare.hpp"
+#include "src/common/boardsquare.hpp"
 
 #define BOARD_DIMENSION 3
 

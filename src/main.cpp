@@ -11,8 +11,8 @@
 #include <QApplication>
 #include <QtGlobal> // qInstallMessageHandler
 
-#include "force3.hpp"
-#include "messagehandler.hpp"
+#include "src/ui/force3.hpp"
+#include "src/common/messagehandler.hpp"
 
 int main(int argc, char* argv[]) {
 	qInstallMessageHandler(q_message_handler);

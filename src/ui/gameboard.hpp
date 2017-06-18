@@ -13,9 +13,9 @@
 
 #include <QWidget>
 
-#include "gamestate.hpp"
-#include "ai.hpp"
-#include "move.hpp"
+#include "src/logic/gamestate.hpp"
+#include "src/logic/ai.hpp"
+#include "src/common/move.hpp"
 
 class QGridLayout;
 

@@ -14,7 +14,7 @@
 #include <QWidget>
 #include <QColor>
 
-#include "boardsquare.hpp"
+#include "src/common/boardsquare.hpp"
 
 class QMouseEvent;
 

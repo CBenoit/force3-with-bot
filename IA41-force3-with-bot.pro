@@ -22,34 +22,34 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+HEADERS += \
+    src/common/boardsquare.hpp \
+    src/common/messagehandler.hpp \
+    src/common/move.hpp \
+    src/common/movewrapper.hpp \
+    src/common/tree.hpp \
+    src/logic/ai.hpp \
+    src/logic/boardstate.hpp \
+    src/logic/gamestate.hpp \
+    src/logic/heuristic.hpp \
+    src/ui/force3.hpp \
+    src/ui/gameboard.hpp \
+    src/ui/gamesquare.hpp \
+    src/ui/mainmenu.hpp \
+    src/ui/settingsmenu.hpp
 
-SOURCES += src/main.cpp \
-    src/force3.cpp \
-    src/gameboard.cpp \
-	src/mainmenu.cpp \
-	src/messagehandler.cpp \
-    src/gamesquare.cpp \
-	src/settingsmenu.cpp \
-    src/gamestate.cpp \
-    src/boardstate.cpp \
-	src/heuristic.cpp \
-    src/ai.cpp
-
-HEADERS  += \
-    src/force3.hpp \
-    src/gameboard.hpp \
-	src/mainmenu.hpp \
-	src/messagehandler.hpp \
-    src/gamesquare.hpp \
-    src/settingsmenu.hpp \
-	src/boardsquare.hpp \
-    src/move.hpp \
-    src/gamestate.hpp \
-    src/boardstate.hpp \
-    src/tree.hpp \
-    src/movewrapper.hpp \
-    src/heuristic.hpp \
-    src/ai.hpp
+SOURCES += \
+    src/common/messagehandler.cpp \
+    src/logic/ai.cpp \
+    src/logic/boardstate.cpp \
+    src/logic/gamestate.cpp \
+    src/logic/heuristic.cpp \
+    src/ui/force3.cpp \
+    src/ui/gameboard.cpp \
+    src/ui/gamesquare.cpp \
+    src/ui/mainmenu.cpp \
+    src/ui/settingsmenu.cpp \
+    src/main.cpp
 
 FORMS    += \
     ui/force3.ui \
