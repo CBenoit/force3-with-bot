@@ -23,10 +23,11 @@
 
 namespace square {
 
-	enum class type : unsigned char {
-		COLORS_AND_PLAYERS(AS_TYPE)
-		size
-	};
+enum class type : unsigned char {
+	COLORS_AND_PLAYERS(AS_TYPE)
+	size
+};
+
 }
 
 #endif // SQUARE_HPP

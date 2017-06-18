@@ -1,26 +1,55 @@
-\chapter{Structures de données utilisées} \label{chapter:structures-donnees}
+\chapter{Structures de données utilisées}\label{chapter:structures-donnees}
 
-Structures de données pour représenter le jeu.
-
-\section{Plateau de jeu}
-
-…
+Dans ce chapitre, nous expliquons les différentes structures de données utilisées pour représenter le jeu.
 
 \section{Couleur d'un jeton}
 
-…
+La couleur d'un jeton (ou d'un joueur) est simplement une constante de type \emph{square::type} (donnée
+sous forme d'une enum en C++).
 
-\section{État du jeu}
+Le code se trouve dans le fichier \emph{src/logic/boardsquare.hpp}.
+
+\section{Plateau de jeu}\label{struct:boardstate}
 
 …
 
 \section{Coup à jouer}
 
-…
+Un coup à jouer est représenté par une structure.
+Il y a trois catégories de coup possibles :
+\begin{itemize}
+    \item \emph{déplacement par glissement}, dans le code: \emph{Slide}.
+    \item \emph{déplacement d'un pion de sa couleur}, dans le code: \emph{Swap}.
+    \item \emph{pose d'un pion}, dans le code: \emph{SetColor}.
+\end{itemize}
+
+Chacun de ces mouvements a sa propre structure de données ce qui permet de les distinguer facilement.
+\begin{itemize}
+    \item \emph{Slide}, position de départ et position d'arrivée.
+    \item \emph{Swap}, position de départ et position d'arrivée.
+    \item \emph{SetColor}, position à laquelle poser le pion.
+\end{itemize}
+
+Le code se trouve dans le fichier \emph{src/logic/move.hpp}.
+
+Pour simplifier certaines opérations, nous avons fait une classe \emph{MoveWrapper} qui permet de contenir
+n'importe quel type de coup. Le code associé se trouve dans le fichier \emph{src/logic/movewrapper.hpp}.
+
+\section{État du jeu}
+
+Un état du jeu est représenté par :
+\begin{itemize}
+    \item le nombre de pions restant pouvant être placés par chaque joueur.
+    \item la couleur du joueur dont c'est le tour.
+    \item un état de plateau (cf \ref{struct:boardstate}).
+    \item le dernier mouvement effectué pour atteindre l'état courant.
+\end{itemize}
+
+Le code se trouve dans le fichier \emph{src/logic/gamestate.hpp}.
 
 \section{Arbre générique}
 
-Pour représenter les états successifs du Force3, nous avons voulu utiliser un
+Pour représenter les états successifs du Force 3, nous avons voulu utiliser un
 arbre générique, c'est à dire un arbre pouvant avoir un nombre non défini
 d'enfant par noeud.
 
@@ -28,42 +57,43 @@ Nous avons choisi d'utiliser un arbre car il n'est pas important de savoir si
 l'on est retourné dans l'état précédent.
 
 \begin{center}
-\begin{forest}for tree={inner sep=0pt,outer sep=0pt}
-[1
-  [2
-    [9]
-    [10]
-    [11]
-    [12]
-  ]
-  [3
-    [13]
-    [14]
-    [15]
-    [16]
-  ]
-  [4]
-  [5
-    [17]
-    [18]
-    [19]
-    [20]
-  ]
-  [6]
-  [7
-    [21]
-    [22]
-    [23]
-    [24]
-  ]
-  [8
-    [25]
-    [26]
-    [27]
-    [28]
- ]
-]
-\end{forest}
+    \begin{forest}for tree={inner sep=0pt,outer sep=0pt}
+    [1
+      [2
+        [9]
+        [10]
+        [11]
+        [12]
+      ]
+      [3
+        [13]
+        [14]
+        [15]
+        [16]
+      ]
+      [4]
+      [5
+        [17]
+        [18]
+        [19]
+        [20]
+      ]
+      [6]
+      [7
+        [21]
+        [22]
+        [23]
+        [24]
+      ]
+      [8
+        [25]
+        [26]
+        [27]
+        [28]
+     ]
+    ]
+    \end{forest}
+\end{center}
 
 Cet arbre est construit sur le principe des itérateurs, permettant d'insérer
 facilement des éléments dans l'arbre.
@@ -76,10 +106,11 @@ Il dispose de plusieurs types d'itérateurs:
     \item Un permettant de visiter tout les enfants d'un node.
 \end{itemize}
 
-La gestion de la mémoire est effectué par l'allocateur standard du c++,
+La gestion de la mémoire est effectué par l'allocateur standard du C++,
 permettant d'initialiser la mémoire et d'appeler les constructeurs séparément.
 
 Cependant, cet arbre ne s'est pas révélé utile, car le stockage des différents
 états n'est pas nécessaire et a un impact mémoire très élevé.
 
-\end{center}
+Le code se trouve dans le fichier \emph{src/common/tree.hpp}.
+

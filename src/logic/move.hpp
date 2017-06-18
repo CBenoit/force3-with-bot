@@ -43,6 +43,7 @@ struct SetColor {
 	uint_fast8_t x;
 	uint_fast8_t y;
 };
+
 }
 
 #endif // MOVE_HPP
