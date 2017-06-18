@@ -11,9 +11,9 @@
 #include <cmath>
 #include <iostream>
 
-#include "src/ui/gameboard.hpp"
-#include "src/logic/gamestate.hpp"
-#include "src/ui/gamesquare.hpp"
+#include "ui/gameboard.hpp"
+#include "logic/gamestate.hpp"
+#include "ui/gamesquare.hpp"
 
 using square::type;
 

@@ -1,7 +1,7 @@
 #include <cstdint>
 
-#include "src/logic/heuristic.hpp"
-#include "src/logic/boardstate.hpp"
+#include "logic/heuristic.hpp"
+#include "logic/boardstate.hpp"
 
 using heuristic::return_t;
 

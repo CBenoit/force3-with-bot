@@ -8,7 +8,7 @@
 //                                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "src/ui/gamesquare.hpp"
+#include "ui/gamesquare.hpp"
 
 #include <QMouseEvent>
 #include <QDebug>

@@ -15,7 +15,7 @@
 #include <QTimer>
 #include <iostream>
 
-#include "src/ui/gameboard.hpp"
+#include "ui/gameboard.hpp"
 
 
 std::pair<uint, heuristic::function_t> Gameboard::blue_brain = {0, &heuristic::easy};

@@ -3,8 +3,8 @@
 
 #include <functional>
 
-#include "src/logic/gamestate.hpp"
-#include "src/ui/gamesquare.hpp"
+#include "logic/gamestate.hpp"
+#include "ui/gamesquare.hpp"
 
 namespace heuristic {
 

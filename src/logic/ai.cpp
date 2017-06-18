@@ -3,7 +3,7 @@
 #include <ctime>
 
 #include "ai.hpp"
-#include "src/common/move.hpp"
+#include "common/move.hpp"
 
 #define ALPHA_BETA_DEPTH_THRESHOLD 7
 
@@ -27,11 +27,11 @@ move::MoveWrapper AI::think(GameState game_state) const {
 			heuristic::return_t ret;
 			// evaluate the score for this move with negamax.
 			if (m_depth >= ALPHA_BETA_DEPTH_THRESHOLD) { // enable alpha beta pruning if depth is high.
-				ret = -negamax(gs, true, m_depth - 1UL,
+				ret = -negamax(gs, true, m_depth - 1u,
 							   max, // alpha
 							   std::numeric_limits<heuristic::return_t>::max() - 1); // beta
 			} else {
-				ret = -negamax(gs, true, m_depth - 1UL);
+				ret = -negamax(gs, true, m_depth - 1u);
 			}
 
 			if (ret > max) {

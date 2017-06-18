@@ -15,11 +15,11 @@
 #include <cstdint>
 #include <cstddef>
 
-#include "src/logic/boardstate.hpp"
-#include "src/ui/gamesquare.hpp"
-#include "src/common/boardsquare.hpp"
-#include "src/common/move.hpp"
-#include "src/common/movewrapper.hpp"
+#include "logic/boardstate.hpp"
+#include "ui/gamesquare.hpp"
+#include "common/boardsquare.hpp"
+#include "common/move.hpp"
+#include "common/movewrapper.hpp"
 
 class GameState
 {

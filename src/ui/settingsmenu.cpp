@@ -12,7 +12,7 @@
 
 #include "settingsmenu.hpp"
 #include "ui_settingsmenu.h"
-#include "src/ui/gameboard.hpp"
+#include "ui/gameboard.hpp"
 
 static heuristic::function_t function_table[] = {&heuristic::easy, &heuristic::normal, &heuristic::hard, &heuristic::legendary};
 

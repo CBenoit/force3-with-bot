@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <QtWidgets/QMessageBox>
-#include "src/ui/force3.hpp"
+#include "ui/force3.hpp"
 #include "ui_force3.h"
 #include "mainmenu.hpp"
 #include "gameboard.hpp"
